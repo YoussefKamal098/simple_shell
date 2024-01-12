@@ -16,7 +16,7 @@ void expand_variables(program_info_t *info)
 
 	for (i = 0; curr_cmd[i]; i++)
 	{
-		if (curr_cmd[i] == '#')
+		if (curr_cmd[i] == ' ' && curr_cmd[i] == '#')
 			break;
 		else if (curr_cmd[i] == '$' && curr_cmd[i + 1] == '?')
 		{
