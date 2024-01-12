@@ -1,0 +1,13 @@
+
+
+ls 
+cal
+
+date
+
+env
+
+
+ls -y
+tt
+
