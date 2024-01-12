@@ -1,5 +1,7 @@
 #include "shell.h"
 
+void print_env(dict_t *env);
+
 /*
  *handle multiple statements like:
  *env key=value key key=value
@@ -16,11 +18,11 @@ int builtin_env_command(program_info_t *info)
 {
 	size_t i;
 	char key[BUFFER_SIZE] = {'\0'}, *value;
-	char *env_second_token = get_node_str_at_index(info->curr_cmd_tokens, 1);
+	char *env_second_token = get_list_node_str_at_index(info->curr_cmd_tokens, 1);
 
 	if (!env_second_token)
 	{
-		print_env(info);
+		print_env(info->env);
 		return (0);
 	}
 
@@ -28,13 +30,13 @@ int builtin_env_command(program_info_t *info)
 	{
 		if (env_second_token[i] == '=')
 		{
-			value = get_env_key(info, key);
+			value = _strdup(get_key(info->env, key));
 			if (value)
-				set_env_key(info, key, &env_second_token[i + 1]);
+				set_key(&info->env, key, &env_second_token[i + 1]);
 
-			print_env(info);
+			print_env(info->env);
 			if (value)
-				set_env_key(info, key, value), free(value);
+				set_key(&info->env, key, value), free(value);
 			else
 				_puts(env_second_token), _puts("\n");
 
@@ -56,9 +58,9 @@ int builtin_env_command(program_info_t *info)
  */
 int builtin_set_env(program_info_t *info)
 {
-	char *key = get_node_str_at_index(info->curr_cmd_tokens, 1);
-	char *value = get_node_str_at_index(info->curr_cmd_tokens, 2);
-	char *third_token = get_node_str_at_index(info->curr_cmd_tokens, 3);
+	char *key = get_list_node_str_at_index(info->curr_cmd_tokens, 1);
+	char *value = get_list_node_str_at_index(info->curr_cmd_tokens, 2);
+	char *third_token = get_list_node_str_at_index(info->curr_cmd_tokens, 3);
 
 	if (!key || !value)
 		return (0);
@@ -69,7 +71,7 @@ int builtin_set_env(program_info_t *info)
 		return (errno);
 	}
 
-	set_env_key(info, key, value);
+	set_key(&info->env, key, value);
 	return (0);
 }
 
@@ -80,8 +82,8 @@ int builtin_set_env(program_info_t *info)
  */
 int builtin_unset_env(program_info_t *info)
 {
-	char *key = get_node_str_at_index(info->curr_cmd_tokens, 1);
-	char *second_token = get_node_str_at_index(info->curr_cmd_tokens, 2);
+	char *key = get_list_node_str_at_index(info->curr_cmd_tokens, 1);
+	char *second_token = get_list_node_str_at_index(info->curr_cmd_tokens, 2);
 
 	if (!key)
 		return (0);
@@ -92,6 +94,16 @@ int builtin_unset_env(program_info_t *info)
 		return (errno);
 	}
 
-	unset_env_key(info, key);
+	unset_key(&info->env, key);
 	return (0);
+}
+
+/**
+ * print_env - print environment variables
+ * @env: head of environment variables list
+ */
+void print_env(dict_t *env)
+{
+	errno = 0;
+	print_dict(env, "=");
 }

@@ -33,7 +33,7 @@ int find_program(program_info_t *info)
 		if (is_exist(code))
 		{
 			errno = 0;
-			update_node_str_at_index(info->curr_cmd_tokens, file_path, 0);
+			update_list_node_str_at_index(info->curr_cmd_tokens, file_path, 0);
 			free_array_of_pointers(directories), free(file_path);
 			return (code);
 		}

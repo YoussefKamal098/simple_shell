@@ -26,7 +26,8 @@ void free_all_program_info(program_info_t *info)
 		if (close(info->file_descriptor))
 			perror(info->name);
 
-	free_curr_program_info(info), free_list(&info->env);
+	free_curr_program_info(info);
+	free_dict(&info->env);
 }
 
 /**

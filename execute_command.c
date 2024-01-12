@@ -19,9 +19,9 @@ int execute_command(program_info_t *info)
 	if (code)
 		return (code);
 
-	env = list_to_strs(info->env);
+	env = dict_to_strs(info->env, "=");
 	curr_cmd_tokens = list_to_strs(info->curr_cmd_tokens);
-	file_path = get_node_str_at_index(info->curr_cmd_tokens, 0);
+	file_path = get_list_node_str_at_index(info->curr_cmd_tokens, 0);
 
 	pid = fork();
 	if (pid == -1)

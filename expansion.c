@@ -38,9 +38,9 @@ void expand_variables(program_info_t *info)
 		else if (curr_cmd[i] == '$' && !is_dollar_sign(curr_cmd, i))
 		{
 			temp = get_env_key_from_buffer(curr_cmd, &i);
-			expansion = get_env_key(info, temp), free(temp);
+			expansion = get_key(info->env, temp), free(temp);
 			if (expansion)
-				j = buffer_add(curr_cmd_expansion, expansion), free(expansion);
+				j = buffer_add(curr_cmd_expansion, expansion);
 		}
 		else
 			curr_cmd_expansion[j] = curr_cmd[i], j++;

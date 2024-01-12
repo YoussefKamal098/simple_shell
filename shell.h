@@ -7,7 +7,7 @@
 /* for fork, execve, getpid, access, close, read, write, isatty */
 #include <stdlib.h>
 /* for malloc ,free */
-#include <stdarg.h>
+/* #include <stdarg.h> */
 /* for, va_start, var_arg, va_end */
 #include <errno.h>
 /* for errno */
@@ -56,6 +56,19 @@ typedef struct list
 } list_t;
 
 /**
+ * struct dict - list of key values variables
+ * @key: key of node
+ * @value: value of node
+ * @next: next node
+ */
+typedef struct dict
+{
+	char *key;
+	char *value;
+	struct dict *next;
+} dict_t;
+
+/**
  * struct program_info - struct for information of the program
  * @name: the name of the program
  * @curr_cmd: current command to by executed
@@ -74,8 +87,8 @@ typedef struct program_info
 	int exec_counter;
 	int file_descriptor;
 	list_t *curr_cmd_tokens;
-	list_t *env;
-	list_t *alias;
+	dict_t *env;
+	dict_t *alias;
 } program_info_t;
 
 /**
@@ -110,11 +123,10 @@ void tokenize_buffer(char *buffer, list_t **next_cmds, list_t **next_ops);
 int check_for_syntax_error(program_info_t *info, char *buffer);
 int check_for_unsupported_features(program_info_t *info, char *buffer);
 
-/* environ_management.c */
-char *get_env_key(program_info_t *info, char *key);
-int set_env_key(program_info_t *info, char *key, char *value);
-int unset_env_key(program_info_t *info, char *key);
-void print_env(program_info_t *info);
+/* key_value_list_management.c */
+char *get_key(dict_t *head, char *key);
+int set_key(dict_t **head, char *key, char *value);
+int unset_key(dict_t **head, char *key);
 
 /* find_builtin_command.c */
 int (*find_builtin_command(program_info_t *info))(program_info_t *info);
@@ -145,12 +157,16 @@ int is_double_semicolon_operator(char *buffer, int i);
 /* expansion.c */
 void expand_variables(program_info_t *info);
 
-/* free.c */
+/* free_pack_1.c */
 void free_curr_program_info(program_info_t *info);
 void free_all_program_info(program_info_t *info);
 void free_array_of_pointers(char **array);
 void free_list(list_t **head);
 void free_list_node(list_t **node);
+
+/* free_pack_2 */
+void free_dict(dict_t **head);
+void free_dict_node(dict_t **node);
 
 /* str_pack_1.c */
 size_t _strlen(char *str);
@@ -160,12 +176,11 @@ int _strcmp(char *str1, char *str2);
 char *_strdup(char *str);
 
 /* str_pack_2.c */
-int is_starts_with(char *str, char *prefix);
-unsigned int count_digit(unsigned long int num);
+size_t count_digit(size_t num);
 int _isdigit(char c);
 
 /* str_pack_3.c */
-char *str_n_concat(unsigned int n, ...);
+/* char *str_n_concat(size_t n, ...) */
 int is_space(char *str);
 int is_empty_str(char *str);
 
@@ -195,16 +210,24 @@ int is_pos_integer(char *str);
 /* list_pack_1.c */
 size_t list_len(const list_t *head);
 int list_push(list_t **head, char *str);
-size_t print_list_str(const list_t *head, char *delimeter);
+size_t print_list(const list_t *head, char *delimeter);
 
 /* list_pack_2.c */
-int remove_node_at_index(list_t **head, unsigned int index);
 char *shift_list(list_t **head);
-char *get_node_str_at_index(list_t *head, unsigned int index);
-
-/* list_pack_3.c */
+char *get_list_node_str_at_index(list_t *head, size_t index);
 char **list_to_strs(list_t *head);
-int update_node_str_at_index(list_t *head, char *str, size_t index);
-int list_search(list_t *head, char *prefix);
+int update_list_node_str_at_index(list_t *head, char *str, size_t index);
+
+/* dict_pack_1.c */
+size_t dict_len(const dict_t *head);
+int dict_push(dict_t **head, char *key, char *value);
+size_t print_dict(const dict_t *head, char *delimeter);
+
+/* dict_pack_2.c */
+char **dict_to_strs(dict_t *head, char *delimeter);
+int remove_dict_node_at_index(dict_t **head, size_t index);
+int dict_search(dict_t *head, char *key);
+int update_dict_node_value_at_index(dict_t *head, char *value, size_t index);
+char *get_dict_node_value_at_index(dict_t *head, size_t index);
 
 #endif /* SHELL_H */

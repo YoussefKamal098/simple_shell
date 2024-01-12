@@ -60,18 +60,22 @@ int list_push(list_t **head, char *str)
 }
 
 /**
- * print_list_str - print strings of the list with delimiter
+ * print_list - print strings of the list with delimiter
  * @head: head of the list
  * @delimeter: delimeter
  * Return: length of list
  */
 
-size_t print_list_str(const list_t *head, char *delimeter)
+size_t print_list(const list_t *head, char *delimeter)
 {
 	size_t size = 0;
 
 	while (head)
-		_puts(head->str), _puts(delimeter), head = head->next, size++;
+	{
+		_puts(head->str);
+		_puts(delimeter);
+		head = head->next, size++;
+	}
 
 	return (size);
 }

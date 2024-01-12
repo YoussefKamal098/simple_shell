@@ -8,7 +8,7 @@
 
 int builtin_exit_command(program_info_t *info)
 {
-	char *second_token = get_node_str_at_index(info->curr_cmd_tokens, 1);
+	char *second_token = get_list_node_str_at_index(info->curr_cmd_tokens, 1);
 
 	if (second_token)
 	{

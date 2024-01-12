@@ -23,7 +23,7 @@ int is_starts_with(char *str, char *prefix)
  * Return: length of number
  */
 
-unsigned int count_digit(unsigned long int num)
+size_t count_digit(size_t num)
 {
 	size_t len = 0;
 

@@ -35,8 +35,13 @@ void init_program_info(program_info_t *info, int ac, char **av, char **env)
  */
 void init_info_env(program_info_t *info, char **env)
 {
-	size_t i;
+	size_t i, j;
 
 	for (i = 0; env[i]; i++)
-		list_push(&info->env, env[i]);
+	{
+		for (j = 0; env[i][j] != '='; j++)
+			;
+		env[i][j] = '\0';
+		dict_push(&info->env, &env[i][0], &env[i][j + 1]);
+	}
 }

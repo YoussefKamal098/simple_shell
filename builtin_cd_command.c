@@ -10,8 +10,8 @@ int set_pre_working_directory(program_info_t *info);
  */
 int builtin_cd_command(program_info_t *info)
 {
-	char *home_dir = get_env_key(info, "HOME");
-	char *second_token = get_node_str_at_index(info->curr_cmd_tokens, 1);
+	char *home_dir = get_key(info->env, "HOME");
+	char *second_token = get_list_node_str_at_index(info->curr_cmd_tokens, 1);
 	char old_dir[BUFFER_SIZE] = {'\0'};
 	int err_code;
 
@@ -20,7 +20,7 @@ int builtin_cd_command(program_info_t *info)
 		if (!_strcmp(second_token, "-"))
 		{
 			err_code = set_pre_working_directory(info);
-			_puts(get_env_key(info, "PWD"));
+			_puts(get_key(info->env, "PWD"));
 			_puts("\n");
 			return (err_code);
 		}
@@ -61,8 +61,8 @@ int set_working_directory(program_info_t *info, char *new_dir)
 		return (CANNOT_CD_TO);
 	}
 
-	set_env_key(info, "PWD", new_dir);
-	set_env_key(info, "OLDPWD", old_dir);
+	set_key(&info->env, "PWD", new_dir);
+	set_key(&info->env, "OLDPWD", old_dir);
 	return (0);
 }
 /**
@@ -76,7 +76,7 @@ int set_pre_working_directory(program_info_t *info)
 	char *old_dir;
 	int err_code = 0;
 
-	old_dir = get_env_key(info, "OLDPWD");
+	old_dir = get_key(info->env, "OLDPWD");
 	if (old_dir)
 		err_code = set_working_directory(info, old_dir);
 

@@ -46,6 +46,11 @@ int is_interactive_mode(int ac)
 
 int handle_signals(void)
 {
+
+	/**
+	 *
+	this is more safer than signal
+
 	struct sigaction sig = {0};
 
 	sig.sa_flags = SA_RESTART;
@@ -56,7 +61,9 @@ int handle_signals(void)
 		perror("sigaction");
 		return (1);
 	}
+	*/
 
+	signal(SIGINT, handle_ctrl_c_signal);
 	return (0);
 }
 

@@ -22,7 +22,7 @@ void print_open_file_error_msg(program_info_t *info, char *file_name)
 
 void print_illegal_number_msg(program_info_t *info)
 {
-	char *num = get_node_str_at_index(info->curr_cmd_tokens, 1);
+	char *num = get_list_node_str_at_index(info->curr_cmd_tokens, 1);
 
 	print_prefix_err_msg(info);
 	_puts_error(info->curr_cmd_name);
@@ -68,7 +68,7 @@ void print_unsupported_feature_error_msg(program_info_t *info, char *feature)
  */
 void print_no_such_file_or_directory_error_msg(program_info_t *info)
 {
-	char *second_token = get_node_str_at_index(info->curr_cmd_tokens, 1);
+	char *second_token = get_list_node_str_at_index(info->curr_cmd_tokens, 1);
 
 	_puts_error(info->curr_cmd_name);
 	_puts_error(": ");

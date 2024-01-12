@@ -76,7 +76,7 @@ void print_prefix_err_msg(program_info_t *info)
 
 void print_cannot_cd_to_msg(program_info_t *info)
 {
-	char *dir = get_node_str_at_index(info->curr_cmd_tokens, 1);
+	char *dir = get_list_node_str_at_index(info->curr_cmd_tokens, 1);
 
 	print_prefix_err_msg(info);
 	_puts_error(info->curr_cmd_name);
