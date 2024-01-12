@@ -14,6 +14,13 @@ void expand_variables(program_info_t *info)
 	char curr_cmd_expansion[BUFFER_SIZE] = {'\0'}, *temp, *expansion;
 	char *curr_cmd = info->curr_cmd;
 
+	if (curr_cmd[0] == '#')
+	{
+		free(curr_cmd);
+		info->curr_cmd = _strdup(" ");
+		return;
+	}
+
 	for (i = 0; curr_cmd[i]; i++)
 	{
 		if (curr_cmd[i] == ' ' && curr_cmd[i + 1] == '#')
