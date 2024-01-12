@@ -25,7 +25,7 @@ int _getline(program_info_t *info)
 
 	if (can_read_new_input(next_commands, next_operators))
 	{
-		read_bytes = read(info->file_descriptor, &buffer, BUFFER_SIZE);
+		read_bytes = read(info->file_descriptor, &buffer, BUFFER_SIZE - 1);
 		if (read_bytes == -1)
 		{
 			perror("Error reading from the file");
