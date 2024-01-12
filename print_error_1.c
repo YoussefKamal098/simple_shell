@@ -19,17 +19,19 @@ int _puts_error(char *str)
 /**
  * print_error_msg - print error message to standard error
  * @info: program information
- * @error_code: error code
+ * @err_code: error code
  */
-void print_error_msg(program_info_t *info, int error_code)
+void print_error_msg(program_info_t *info, int err_code)
 {
-	if (error_code == ILLEGAL_NUMBER)
+	if (err_code == ILLEGAL_NUMBER)
 		print_illegal_number_msg(info);
-	else if (error_code == COMMAND_NOT_FOUND)
+	else if (err_code == CANNOT_CD_TO)
+		print_cannot_cd_to_msg(info);
+	else if (err_code == COMMAND_NOT_FOUND)
 		print_msg(info, ": not found");
-	else if (error_code == PERMISSION_DENIED)
+	else if (err_code == PERMISSION_DENIED)
 		print_msg(info, ": Permission denied");
-	else if (error_code == NO_SUCH_FILE_OR_DIRECTORY)
+	else if (err_code == NO_SUCH_FILE_OR_DIRECTORY)
 		print_no_such_file_or_directory_error_msg(info);
 }
 
@@ -64,4 +66,21 @@ void print_prefix_err_msg(program_info_t *info)
 	_puts_error(": ");
 
 	free(command_exec_num);
+}
+
+/**
+ * print_cannot_cd_to_msg - print can't cd to error message to
+ * standard error
+ * @info: program information
+ */
+
+void print_cannot_cd_to_msg(program_info_t *info)
+{
+	char *dir = get_node_str_at_index(info->curr_cmd_tokens, 1);
+
+	print_prefix_err_msg(info);
+	_puts_error(info->curr_cmd_name);
+	_puts_error(": can't cd to ");
+	_puts_error(dir);
+	_puts_error("\n");
 }

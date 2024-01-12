@@ -20,7 +20,7 @@ char *get_env_key(program_info_t *info, char *key)
 	i = env_key_search(info->env, key);
 
 	if (i != -1)
-		return (_strdup(get_node_str_at_index(info->env, i) + _strlen(key) + 1));
+		return (get_node_str_at_index(info->env, i) + _strlen(key) + 1);
 
 	return (NULL);
 }

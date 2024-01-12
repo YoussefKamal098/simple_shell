@@ -42,6 +42,7 @@ dealing with specific features provided by POSIX-compliant systems.
 #define PERMISSION_DENIED 126
 #define NO_SUCH_FILE_OR_DIRECTORY ENOENT
 #define ILLEGAL_NUMBER 222
+#define CANNOT_CD_TO 333
 
 /**
  * struct list - list of strings
@@ -126,6 +127,9 @@ int builtin_env_command(program_info_t *info);
 int builtin_set_env(program_info_t *info);
 int builtin_unset_env(program_info_t *info);
 
+/* builtin_cmd_command.c  */
+int builtin_cd_command(program_info_t *info);
+
 /* find_program.c */
 int find_program(program_info_t *info);
 
@@ -174,6 +178,7 @@ int _puts_error(char *str);
 void print_error_msg(program_info_t *info, int code);
 void print_msg(program_info_t *info, char *msg);
 void print_prefix_err_msg(program_info_t *info);
+void print_cannot_cd_to_msg(program_info_t *info);
 
 /* print_error_2.c */
 void print_open_file_error_msg(program_info_t *info, char *file_name);

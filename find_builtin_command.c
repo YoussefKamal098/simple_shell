@@ -13,6 +13,7 @@ int (*find_builtin_command(program_info_t *info))(program_info_t *info)
 	    {"env", builtin_env_command},
 	    {"setenv", builtin_set_env},
 	    {"unsetenv", builtin_unset_env},
+	    {"cd", builtin_cd_command},
 	    {NULL, NULL}};
 	size_t i;
 

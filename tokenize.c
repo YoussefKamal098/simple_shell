@@ -55,7 +55,7 @@ char **tokenize_env_path(program_info_t *info)
 	size_t i, directories_counter = 0;
 	char **tokens, *token, *path, *delimiter = ":";
 
-	path = get_env_key(info, "PATH");
+	path = _strdup(get_env_key(info, "PATH"));
 
 	if (!path || path[0] == '\0')
 		return (NULL);
