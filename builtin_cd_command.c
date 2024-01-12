@@ -62,7 +62,7 @@ int set_working_directory(program_info_t *info, char *new_dir)
 	}
 
 	set_env_key(info, "PWD", new_dir);
-	set_env_key(info, "OLD_PWD", old_dir);
+	set_env_key(info, "OLDPWD", old_dir);
 	return (0);
 }
 /**
@@ -76,7 +76,7 @@ int set_pre_working_directory(program_info_t *info)
 	char *old_dir;
 	int err_code = 0;
 
-	old_dir = get_env_key(info, "OLD_PWD");
+	old_dir = get_env_key(info, "OLDPWD");
 	if (old_dir)
 		err_code = set_working_directory(info, old_dir);
 
