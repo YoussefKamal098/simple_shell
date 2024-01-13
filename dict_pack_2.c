@@ -10,7 +10,7 @@ char **dict_to_strs(dict_t *head, char *delimeter)
 {
 	size_t len = dict_len(head), i;
 	dict_t *curr = head;
-	char **list, *str, *temp;
+	char **list, *str;
 
 	if (!head || !len)
 		return (NULL);
@@ -24,11 +24,7 @@ char **dict_to_strs(dict_t *head, char *delimeter)
 
 	for (i = 0; curr; curr = curr->next, i++)
 	{
-		str = strconcat(curr->key, delimeter);
-		temp = str;
-		str = strconcat(str, curr->value);
-		free(temp);
-
+		str = str_n_concat(3, curr->key, delimeter, curr->value);
 		if (!str)
 		{
 			errno = ENOMEM, perror("Error");

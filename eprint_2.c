@@ -35,14 +35,14 @@ void print_illegal_number_err_msg(program_info_t *info)
  * print_syntax_err_msg -  print syntax error message to
  * standard error
  * @info: program information
- * @error: syntax error
+ * @err: syntax error
  */
 
-void print_syntax_err_msg(program_info_t *info, char *error)
+void print_syntax_err_msg(program_info_t *info, char *err)
 {
 	print_prefix_err_msg(info);
 	_eputs("Syntax error: ");
-	_eputs(error);
+	_eputs(err);
 	_eputs(" unexpected\n");
 }
 

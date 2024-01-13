@@ -15,7 +15,7 @@ void hsh(program_info_t *info, char *prompt)
 		_puts(prompt);
 		info->exec_counter += 1;
 
-		code = cmd_len = _getline(info);
+		code = cmd_len = get_curr_cmd(info);
 		if (code == EOF)
 		{
 			free_all_program_info(info);

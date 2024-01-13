@@ -13,8 +13,10 @@ int execute_cmd(program_info_t *info)
 	int code, status;
 	pid_t pid;
 
+	errno = 0;
 	if (builtin_cmd)
 		return (builtin_cmd(info));
+
 	code = find_program(info);
 	if (code)
 		return (code);
@@ -25,9 +27,8 @@ int execute_cmd(program_info_t *info)
 
 	pid = fork();
 	if (pid == -1)
-	{
 		perror(info->curr_cmd_name), exit(EXIT_FAILURE);
-	}
+
 	else if (pid == 0)
 	{
 		code = execve(file_path, curr_cmd_tokens, env);

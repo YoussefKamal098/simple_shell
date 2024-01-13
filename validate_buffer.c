@@ -1,5 +1,25 @@
 #include "shell.h"
 
+int check_for_syntax_err(program_info_t *info, char *buffer);
+int check_for_unsupported_features(program_info_t *info, char *buffer);
+
+/**
+ * validate_buffer - validate buffer
+ * @info: program information
+ * @buffer: buffer that will by checked
+ * Return: 1 if buffer is invalid 0 otherwise
+ */
+
+int validate_buffer(program_info_t *info, char *buffer)
+{
+	if (check_for_syntax_err(info, buffer))
+		return (1);
+	if (check_for_unsupported_features(info, buffer))
+		return (1);
+
+	return (0);
+}
+
 /**
  * check_for_syntax_err - check for syntax error
  * @info: program information
@@ -19,8 +39,9 @@ int check_for_syntax_err(program_info_t *info, char *buffer)
 			cmd[j] = '\0';
 			if (is_empty_str(cmd))
 			{
+				errno = 2;
 				print_syntax_err_msg(info, buffer[i] == '&' ? "&&" : "||");
-				return (1);
+				return (-1);
 			}
 
 			i++, j = 0;
@@ -35,8 +56,10 @@ int check_for_syntax_err(program_info_t *info, char *buffer)
 			cmd[j] = '\0';
 			if (is_empty_str(cmd))
 			{
-				ch = buffer[i], print_syntax_err_msg(info, &ch);
-				return (1);
+				ch = buffer[i];
+				errno = 2;
+				print_syntax_err_msg(info, &ch);
+				return (-1);
 			}
 			j = 0;
 		}
@@ -74,7 +97,7 @@ int check_for_unsupported_features(program_info_t *info, char *buffer)
 				temp = "Background proccess";
 
 			print_unsupported_feature_err_msg(info, temp);
-			return (1);
+			return (-1);
 		}
 	}
 

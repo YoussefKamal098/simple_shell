@@ -7,7 +7,7 @@
 /* for fork, execve, getpid, access, close, read, write, isatty */
 #include <stdlib.h>
 /* for malloc ,free */
-/* #include <stdarg.h> */
+#include <stdarg.h>
 /* for, va_start, var_arg, va_end */
 #include <errno.h>
 /* for errno */
@@ -122,11 +122,10 @@ char *_strtok(char *value, char *delimiters);
 /* tokenize.c */
 void tokenize_curr_cmd(program_info_t *info);
 char **tokenize_env_path(program_info_t *info);
-void tokenize_buffer(char *buffer, list_t **next_cmds, list_t **next_ops);
+void tokenize_buffer(program_info_t *info, char *buffer);
 
 /* validate_buffer.c  */
-int check_for_syntax_err(program_info_t *info, char *buffer);
-int check_for_unsupported_features(program_info_t *info, char *buffer);
+int validate_buffer(program_info_t *info, char *buffer);
 
 /* dict_management.c */
 char *get_dict_key(dict_t *head, char *key);
@@ -153,8 +152,11 @@ int find_program(program_info_t *info);
 /* check_file.c */
 int check_file(char *path);
 
-/* getline.c */
-int _getline(program_info_t *info);
+/* get_curr_cmd.c */
+int _getline(int fd, char *buffer, size_t size);
+
+/* get_curr_cmd.c */
+int get_curr_cmd(program_info_t *info);
 int is_and_operator(char *buffer, int i);
 int is_or_operator(char *buffer, int i);
 int is_double_semicolon(char *buffer, int i);
@@ -185,7 +187,7 @@ size_t count_digit(size_t num);
 int _isdigit(char c);
 
 /* str_pack_3.c */
-/* char *str_n_concat(size_t n, ...) */
+char *str_n_concat(size_t n, ...);
 int is_space(char *value);
 int is_empty_str(char *value);
 
@@ -202,7 +204,7 @@ void print_cannot_cd_to_err_msg(program_info_t *info);
 /* print_error_2.c */
 void print_open_file_err_msg(program_info_t *info, char *file_name);
 void print_illegal_number_err_msg(program_info_t *info);
-void print_syntax_err_msg(program_info_t *info, char *error);
+void print_syntax_err_msg(program_info_t *info, char *err);
 void print_unsupported_feature_err_msg(program_info_t *info, char *feature);
 void print_no_such_file_or_dir_err_msg(program_info_t *info);
 

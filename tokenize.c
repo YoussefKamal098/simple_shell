@@ -29,24 +29,13 @@ void tokenize_curr_cmd(program_info_t *info)
 			list_push(&info->curr_cmd_tokens, token);
 	}
 
-	/**
-	 * handle quote and double quote nested quote and double quote and
-	 * double braces and calcs
-	 * cases like these:
-	 * echo $((ls))
-	 * echo $((1+6))
-	 * 1- echo "        $?    ",
-	 * 2- ls " || ",
-	 * 3- echo "word "word word " "   word "word"  " " word word 'word word' " ",
-	 */
-
 	free(curr_cmd);
 }
 
 /**
  * tokenize_env_path - separate the PATH environment variable with
  * ':' character
- * @info: program info
+ * @info: program information
  * Return: pointer of directories (strings)
  */
 
@@ -71,12 +60,12 @@ char **tokenize_env_path(program_info_t *info)
 		return (NULL);
 	}
 
-	i = 0, token = tokens[i] = _strdup(_strtok(path, delimiter));
+	i = 0;
+	token = _strtok(path, delimiter);
 	while (token)
 	{
+		tokens[i] = strconcat(token, "/");
 		i++, token = _strtok(NULL, delimiter);
-		if (token)
-			tokens[i] = strconcat(token, "/");
 	}
 
 	tokens[i] = NULL, free(path);
@@ -86,11 +75,10 @@ char **tokenize_env_path(program_info_t *info)
 /**
  * tokenize_buffer - separate the buffer with delimiters
  * (|| && '\n' ;) to set of commands
+ * @info: program information
  * @buffer: buffer of getline function
- * @next_cmds: list that store the future commands
- * @next_ops: list that store the future operators
  */
-void tokenize_buffer(char *buffer, list_t **next_cmds, list_t **next_ops)
+void tokenize_buffer(program_info_t *info, char *buffer)
 {
 	size_t i, j = 0;
 	char cmd[BUFFER_SIZE];
@@ -100,8 +88,8 @@ void tokenize_buffer(char *buffer, list_t **next_cmds, list_t **next_ops)
 		if (is_and_operator(buffer, i) || is_or_operator(buffer, i))
 		{
 			cmd[j] = '\0';
-			list_push(next_cmds, cmd);
-			list_push(next_ops, buffer[i] == '&' ? "&&" : "||");
+			list_push(&info->next_cmds, cmd);
+			list_push(&info->next_operators, buffer[i] == '&' ? "&&" : "||");
 
 			i++, j = 0;
 		}
@@ -109,9 +97,9 @@ void tokenize_buffer(char *buffer, list_t **next_cmds, list_t **next_ops)
 		{
 			cmd[j] = '\0';
 			if (cmd[0] != '\0')
-				list_push(next_cmds, cmd);
+				list_push(&info->next_cmds, cmd);
 			if (buffer[i] == ';')
-				list_push(next_ops, ";");
+				list_push(&info->next_operators, ";");
 			j = 0;
 		}
 		else
@@ -119,5 +107,5 @@ void tokenize_buffer(char *buffer, list_t **next_cmds, list_t **next_ops)
 	}
 
 	if (j != 0)
-		cmd[j] = '\0', list_push(next_cmds, cmd);
+		cmd[j] = '\0', list_push(&info->next_cmds, cmd);
 }
