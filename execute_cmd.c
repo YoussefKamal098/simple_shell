@@ -13,7 +13,6 @@ int execute_cmd(program_info_t *info)
 	int code, status;
 	pid_t pid;
 
-	errno = 0;
 	if (builtin_cmd)
 		return (builtin_cmd(info));
 
