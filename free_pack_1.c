@@ -28,6 +28,8 @@ void free_all_program_info(program_info_t *info)
 			perror(info->name);
 
 	free_curr_program_info(info);
+	free_list(&info->next_cmds);
+	free_list(&info->next_operators);
 	free_dict(&info->env);
 }
 

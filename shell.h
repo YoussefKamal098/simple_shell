@@ -33,9 +33,10 @@ dealing with specific features provided by POSIX-compliant systems.
 #define BUFFER_SIZE 1024
 #define PROMPT "$ "
 
-#define PROGRAM_INFO_INIT                                                 \
-	{                                                         \
-		NULL, NULL, NULL, 0, 0, NULL, NULL, NULL, \
+#define PROGRAM_INFO_INIT                                         \
+	{                                                 \
+		NULL, NULL, NULL, 0, 0,           \
+		    NULL, NULL, NULL, NULL, NULL, \
 	}
 
 #define CMD_NOT_FOUND 127
@@ -75,6 +76,8 @@ typedef struct dict
  * @curr_cmd_name: pointer to the first command typed by the user
  * @exec_counter: number of executed command
  * @fd: file descriptor to input file
+ * @next_cmds: feature commands to execute
+ * @next_operators: feature operators
  * @curr_cmd_tokens: list of tokenized of current command
  * @env: list of the environment variable
  * @alias: list of the program aliases.
@@ -86,6 +89,8 @@ typedef struct program_info
 	char *curr_cmd_name;
 	int exec_counter;
 	int fd;
+	list_t *next_cmds;
+	list_t *next_operators;
 	list_t *curr_cmd_tokens;
 	dict_t *env;
 	dict_t *alias;

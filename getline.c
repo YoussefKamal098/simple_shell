@@ -21,9 +21,8 @@ int _getline(program_info_t *info)
 {
 	int read_bytes;
 	char buffer[BUFFER_SIZE] = {'\0'}, *cmd, *ops;
-	static list_t *next_cmds, *next_operators;
 
-	if (can_read_new_input(next_cmds, next_operators))
+	if (can_read_new_input(info->next_cmds, info->next_operators))
 	{
 		read_bytes = read(info->fd, &buffer, BUFFER_SIZE - 1);
 		if (read_bytes == -1)
@@ -38,23 +37,23 @@ int _getline(program_info_t *info)
 		if (check_for_unsupported_features(info, buffer))
 			return (0);
 
-		free_list(&next_cmds), free_list(&next_operators);
-		tokenize_buffer(buffer, &next_cmds, &next_operators);
+		free_list(&info->next_cmds), free_list(&info->next_operators);
+		tokenize_buffer(buffer, &info->next_cmds, &info->next_operators);
 	}
 	else
 	{
-		if (next_operators)
+		if (info->next_operators)
 		{
-			ops = shift_list(&next_operators);
+			ops = shift_list(&info->next_operators);
 			if (ops)
 				free(ops);
 		}
 	}
 
-	if (!next_cmds)
+	if (!info->next_cmds)
 		return (0);
 
-	cmd = shift_list(&next_cmds);
+	cmd = shift_list(&info->next_cmds);
 	info->curr_cmd = _strdup(cmd), free(cmd);
 	return (_strlen(info->curr_cmd));
 }
