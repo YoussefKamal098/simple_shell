@@ -11,7 +11,7 @@ int _puts(char *str)
 	int bytes = write(STDOUT_FILENO, str, _strlen(str));
 
 	if (bytes == -1)
-		perror("Error writing to the file");
+		perror("Error");
 
 	return (bytes);
 }

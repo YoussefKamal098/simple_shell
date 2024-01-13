@@ -1,11 +1,11 @@
 #include "shell.h"
 
 /**
- * run - infinite loop that shows the prompt
+ * hsh - infinite loop that shows the prompt
  * @info: program information
  * @prompt: prompt to be printed
  */
-void run(program_info_t *info, char *prompt)
+void hsh(program_info_t *info, char *prompt)
 {
 	int code = 0;
 	size_t cmd_len = 0;
@@ -24,13 +24,13 @@ void run(program_info_t *info, char *prompt)
 
 		if (cmd_len >= 1)
 		{
-			expand_variables(info);
+			expand_vars(info);
 			tokenize_curr_cmd(info);
 			if (info->curr_cmd_tokens)
 			{
-				code = execute_command(info);
+				code = execute_cmd(info);
 				if (code != 0)
-					print_error_msg(info, code);
+					print_stderr_msg(info, code);
 			}
 		}
 

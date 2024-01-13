@@ -12,29 +12,29 @@ int is_exist(int code);
 int find_program(program_info_t *info)
 {
 	int i, code = 0;
-	char **directories;
+	char **dirs;
 	char *file_path;
 
 	if (is_path(info))
 		return (check_file(info->curr_cmd_name));
 
-	directories = tokenize_env_path(info);
-	if (!directories || !directories[0])
+	dirs = tokenize_env_path(info);
+	if (!dirs || !dirs[0])
 	{
-		errno = COMMAND_NOT_FOUND;
+		errno = CMD_NOT_FOUND;
 		return (errno);
 	}
 
-	for (i = 0; directories[i]; i++)
+	for (i = 0; dirs[i]; i++)
 	{
-		file_path = str_concat(directories[i], info->curr_cmd_name);
+		file_path = strconcat(dirs[i], info->curr_cmd_name);
 		code = check_file(file_path);
 
 		if (is_exist(code))
 		{
 			errno = 0;
-			update_list_node_str_at_index(info->curr_cmd_tokens, file_path, 0);
-			free_array_of_pointers(directories), free(file_path);
+			update_list_node_value_at_index(info->curr_cmd_tokens, file_path, 0);
+			free_array_of_pointers(dirs), free(file_path);
 			return (code);
 		}
 
@@ -42,7 +42,7 @@ int find_program(program_info_t *info)
 	}
 
 	free_list(&info->curr_cmd_tokens);
-	free_array_of_pointers(directories);
+	free_array_of_pointers(dirs);
 	return (code);
 }
 

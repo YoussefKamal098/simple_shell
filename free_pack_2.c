@@ -15,6 +15,7 @@ void free_dict(dict_t **head)
 	temp = *head;
 	free_dict(&temp->next);
 	free_dict_node(&temp);
+	*head = NULL;
 }
 
 /**

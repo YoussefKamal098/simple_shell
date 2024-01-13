@@ -40,13 +40,13 @@ char *_strcpy(char *dest, char *src)
 }
 
 /**
- * str_concat - concatenate two strings
+ * strconcat - concatenate two strings
  * @str1:  string
  * @str2: string
  * Return: concatenated string or NULL if malloc failed
  */
 
-char *str_concat(char *str1, char *str2)
+char *strconcat(char *str1, char *str2)
 {
 	size_t i, j, str_len = 0;
 	char *str;

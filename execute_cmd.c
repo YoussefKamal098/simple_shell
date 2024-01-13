@@ -1,27 +1,27 @@
 #include "shell.h"
 
 /**
- * execute_command - execute a command with arguments.
+ * execute_cmd - execute a command with arguments.
  * @info: program information
  * Return: 0 if success error code otherwise
  */
 
-int execute_command(program_info_t *info)
+int execute_cmd(program_info_t *info)
 {
-	int (*builtin_command)(program_info_t *info) = find_builtin_command(info);
+	int (*builtin_cmd)(program_info_t *info) = find_builtin_cmd(info);
 	char *file_path, **curr_cmd_tokens, **env;
 	int code, status;
 	pid_t pid;
 
-	if (builtin_command)
-		return (builtin_command(info));
+	if (builtin_cmd)
+		return (builtin_cmd(info));
 	code = find_program(info);
 	if (code)
 		return (code);
 
 	env = dict_to_strs(info->env, "=");
 	curr_cmd_tokens = list_to_strs(info->curr_cmd_tokens);
-	file_path = get_list_node_str_at_index(info->curr_cmd_tokens, 0);
+	file_path = get_list_node_value_at_index(info->curr_cmd_tokens, 0);
 
 	pid = fork();
 	if (pid == -1)

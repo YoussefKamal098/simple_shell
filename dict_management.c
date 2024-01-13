@@ -1,13 +1,13 @@
 #include "shell.h"
 
 /**
- * get_key - gets the value of the variable
+ * get_dict_key - gets the value of the variable
  * @head: head of list
  * @key: the key of variable
  * Return: a pointer to the duplicated value of the variable
  * or NULL if it doesn't exist
  */
-char *get_key(dict_t *head, char *key)
+char *get_dict_key(dict_t *head, char *key)
 {
 	int i;
 
@@ -23,14 +23,14 @@ char *get_key(dict_t *head, char *key)
 }
 
 /**
- * set_key - overwrite the value of the  variable
+ * set_dict_key - overwrite the value of the  variable
  * or create it if doesn't exist.
  * @head: head of list
  * @key: the key of variable
  * @value: value to assigned to variable key
  * Return: -1 if any of the parameters are NULL, 0 if success.
  */
-int set_key(dict_t **head, char *key, char *value)
+int set_dict_key(dict_t **head, char *key, char *value)
 {
 	int i;
 
@@ -50,12 +50,12 @@ int set_key(dict_t **head, char *key, char *value)
 }
 
 /**
- * unset_key - remove a variable with key
+ * unset_dict_key - remove a variable with key
  * @head: head of list
  * @key: the key of variable
  * Return: 0 if the key was removed, -1 if the key does not exist
  */
-int unset_key(dict_t **head, char *key)
+int unset_dict_key(dict_t **head, char *key)
 {
 	int i = 0;
 

@@ -33,25 +33,25 @@ dealing with specific features provided by POSIX-compliant systems.
 #define BUFFER_SIZE 1024
 #define PROMPT "$ "
 
-#define PROGRAM_INFO_INITIAL                                              \
+#define PROGRAM_INFO_INIT                                                 \
 	{                                                         \
 		NULL, NULL, NULL, 0, 0, NULL, NULL, NULL, \
 	}
 
-#define COMMAND_NOT_FOUND 127
+#define CMD_NOT_FOUND 127
 #define PERMISSION_DENIED 126
-#define NO_SUCH_FILE_OR_DIRECTORY ENOENT
+#define NO_SUCH_FILE_OR_DIR ENOENT
 #define ILLEGAL_NUMBER 222
 #define CANNOT_CD_TO 333
 
 /**
  * struct list - list of strings
- * @str: string
+ * @value: string of the node
  * @next: next node
  */
 typedef struct list
 {
-	char *str;
+	char *value;
 	struct list *next;
 } list_t;
 
@@ -74,7 +74,7 @@ typedef struct dict
  * @curr_cmd: current command to by executed
  * @curr_cmd_name: pointer to the first command typed by the user
  * @exec_counter: number of executed command
- * @file_descriptor: file descriptor to input file
+ * @fd: file descriptor to input file
  * @curr_cmd_tokens: list of tokenized of current command
  * @env: list of the environment variable
  * @alias: list of the program aliases.
@@ -85,34 +85,34 @@ typedef struct program_info
 	char *curr_cmd;
 	char *curr_cmd_name;
 	int exec_counter;
-	int file_descriptor;
+	int fd;
 	list_t *curr_cmd_tokens;
 	dict_t *env;
 	dict_t *alias;
 } program_info_t;
 
 /**
- * struct builtin_command - struct for builtin command
+ * struct builtin_cmd - struct for builtin command
  * @name: command name
  * @execute_func: function that execute command
  */
-typedef struct builtin_command
+typedef struct builtin_cmd
 {
 	char *name;
 	int (*execute_func)(program_info_t *info);
-} builtin_command_t;
+} builtin_cmd_t;
 
 /* init_program_info.c */
 void init_program_info(program_info_t *info, int ac, char **av, char **env);
 
-/* run.c */
-void run(program_info_t *info, char *prompt);
+/* hsh.c */
+void hsh(program_info_t *info, char *prompt);
 
-/* execute_command.c */
-int execute_command(program_info_t *info);
+/* execute_cmd.c */
+int execute_cmd(program_info_t *info);
 
 /* _strtok.c */
-char *_strtok(char *str, char *delimiters);
+char *_strtok(char *value, char *delimiters);
 
 /* tokenize.c */
 void tokenize_curr_cmd(program_info_t *info);
@@ -120,27 +120,27 @@ char **tokenize_env_path(program_info_t *info);
 void tokenize_buffer(char *buffer, list_t **next_cmds, list_t **next_ops);
 
 /* validate_buffer.c  */
-int check_for_syntax_error(program_info_t *info, char *buffer);
+int check_for_syntax_err(program_info_t *info, char *buffer);
 int check_for_unsupported_features(program_info_t *info, char *buffer);
 
-/* key_value_list_management.c */
-char *get_key(dict_t *head, char *key);
-int set_key(dict_t **head, char *key, char *value);
-int unset_key(dict_t **head, char *key);
+/* dict_management.c */
+char *get_dict_key(dict_t *head, char *key);
+int set_dict_key(dict_t **head, char *key, char *value);
+int unset_dict_key(dict_t **head, char *key);
 
-/* find_builtin_command.c */
-int (*find_builtin_command(program_info_t *info))(program_info_t *info);
+/* find_builtin_cmd.c */
+int (*find_builtin_cmd(program_info_t *info))(program_info_t *info);
 
-/* builtin_exit_command.c */
-int builtin_exit_command(program_info_t *info);
+/* builtin_exit_cmd.c */
+int builtin_exit_cmd(program_info_t *info);
 
-/* builtin_env_command.c */
-int builtin_env_command(program_info_t *info);
-int builtin_set_env(program_info_t *info);
-int builtin_unset_env(program_info_t *info);
+/* builtin_env_cmd.c */
+int builtin_env_cmd(program_info_t *info);
+int builtin_setenv_cmd(program_info_t *info);
+int builtin_unsetenv_cmd(program_info_t *info);
 
 /* builtin_cmd_command.c  */
-int builtin_cd_command(program_info_t *info);
+int builtin_cd_cmd(program_info_t *info);
 
 /* find_program.c */
 int find_program(program_info_t *info);
@@ -152,10 +152,10 @@ int check_file(char *path);
 int _getline(program_info_t *info);
 int is_and_operator(char *buffer, int i);
 int is_or_operator(char *buffer, int i);
-int is_double_semicolon_operator(char *buffer, int i);
+int is_double_semicolon(char *buffer, int i);
 
 /* expansion.c */
-void expand_variables(program_info_t *info);
+void expand_vars(program_info_t *info);
 
 /* free_pack_1.c */
 void free_curr_program_info(program_info_t *info);
@@ -169,11 +169,11 @@ void free_dict(dict_t **head);
 void free_dict_node(dict_t **node);
 
 /* str_pack_1.c */
-size_t _strlen(char *str);
+size_t _strlen(char *value);
 char *_strcpy(char *dest, char *src);
-char *str_concat(char *str1, char *str2);
+char *strconcat(char *str1, char *str2);
 int _strcmp(char *str1, char *str2);
-char *_strdup(char *str);
+char *_strdup(char *value);
 
 /* str_pack_2.c */
 size_t count_digit(size_t num);
@@ -181,53 +181,52 @@ int _isdigit(char c);
 
 /* str_pack_3.c */
 /* char *str_n_concat(size_t n, ...) */
-int is_space(char *str);
-int is_empty_str(char *str);
+int is_space(char *value);
+int is_empty_str(char *value);
 
 /* print.c */
-int _puts(char *str);
+int _puts(char *value);
 
 /* print_error_1.c */
-int _puts_error(char *str);
-
-void print_error_msg(program_info_t *info, int code);
-void print_msg(program_info_t *info, char *msg);
+int _eputs(char *value);
+void print_stderr_msg(program_info_t *info, int code);
+void print_err_msg(program_info_t *info, char *msg);
 void print_prefix_err_msg(program_info_t *info);
-void print_cannot_cd_to_msg(program_info_t *info);
+void print_cannot_cd_to_err_msg(program_info_t *info);
 
 /* print_error_2.c */
-void print_open_file_error_msg(program_info_t *info, char *file_name);
-void print_illegal_number_msg(program_info_t *info);
-void print_syntax_error_msg(program_info_t *info, char *error);
-void print_unsupported_feature_error_msg(program_info_t *info, char *feature);
-void print_no_such_file_or_directory_error_msg(program_info_t *info);
+void print_open_file_err_msg(program_info_t *info, char *file_name);
+void print_illegal_number_err_msg(program_info_t *info);
+void print_syntax_err_msg(program_info_t *info, char *error);
+void print_unsupported_feature_err_msg(program_info_t *info, char *feature);
+void print_no_such_file_or_dir_err_msg(program_info_t *info);
 
 /* numbers_pack.c */
 char *_itoa(long int num, int is_unsigned);
-long int _atoi(char *str);
-int is_pos_integer(char *str);
+long int _atoi(char *value);
+int is_pos_int(char *value);
 
 /* list_pack_1.c */
 size_t list_len(const list_t *head);
-int list_push(list_t **head, char *str);
 size_t print_list(const list_t *head, char *delimeter);
+int list_push(list_t **head, char *value);
 
 /* list_pack_2.c */
 char *shift_list(list_t **head);
-char *get_list_node_str_at_index(list_t *head, size_t index);
+char *get_list_node_value_at_index(list_t *head, size_t index);
 char **list_to_strs(list_t *head);
-int update_list_node_str_at_index(list_t *head, char *str, size_t index);
+int update_list_node_value_at_index(list_t *head, char *value, size_t index);
 
 /* dict_pack_1.c */
 size_t dict_len(const dict_t *head);
-int dict_push(dict_t **head, char *key, char *value);
 size_t print_dict(const dict_t *head, char *delimeter);
+int dict_push(dict_t **head, char *key, char *value);
 
 /* dict_pack_2.c */
-char **dict_to_strs(dict_t *head, char *delimeter);
 int remove_dict_node_at_index(dict_t **head, size_t index);
 int dict_search(dict_t *head, char *key);
 int update_dict_node_value_at_index(dict_t *head, char *value, size_t index);
 char *get_dict_node_value_at_index(dict_t *head, size_t index);
+char **dict_to_strs(dict_t *head, char *delimeter);
 
 #endif /* SHELL_H */

@@ -13,7 +13,7 @@ int can_read_new_input(list_t *next_cmds, list_t *next_ops);
  */
 
 /**
- * _getline - read line from the file_descriptor
+ * _getline - read line from the fd
  * @info: program information
  * Return: read bytes or -1 if it reach end of the file
  */
@@ -21,25 +21,25 @@ int _getline(program_info_t *info)
 {
 	int read_bytes;
 	char buffer[BUFFER_SIZE] = {'\0'}, *cmd, *ops;
-	static list_t *next_commands, *next_operators;
+	static list_t *next_cmds, *next_operators;
 
-	if (can_read_new_input(next_commands, next_operators))
+	if (can_read_new_input(next_cmds, next_operators))
 	{
-		read_bytes = read(info->file_descriptor, &buffer, BUFFER_SIZE - 1);
+		read_bytes = read(info->fd, &buffer, BUFFER_SIZE - 1);
 		if (read_bytes == -1)
 		{
-			perror("Error reading from the file");
+			perror("Error");
 			return (EOF);
 		}
 		if (read_bytes == 0)
 			return (EOF);
-		if (check_for_syntax_error(info, buffer))
+		if (check_for_syntax_err(info, buffer))
 			return (0);
 		if (check_for_unsupported_features(info, buffer))
 			return (0);
 
-		free_list(&next_commands), free_list(&next_operators);
-		tokenize_buffer(buffer, &next_commands, &next_operators);
+		free_list(&next_cmds), free_list(&next_operators);
+		tokenize_buffer(buffer, &next_cmds, &next_operators);
 	}
 	else
 	{
@@ -51,10 +51,10 @@ int _getline(program_info_t *info)
 		}
 	}
 
-	if (!next_commands)
+	if (!next_cmds)
 		return (0);
 
-	cmd = shift_list(&next_commands);
+	cmd = shift_list(&next_cmds);
 	info->curr_cmd = _strdup(cmd), free(cmd);
 	return (_strlen(info->curr_cmd));
 }
@@ -69,8 +69,8 @@ int _getline(program_info_t *info)
 int can_read_new_input(list_t *next_cmds, list_t *next_ops)
 {
 	return ((!next_cmds ||
-		 (next_ops && _strcmp(next_ops->str, "&&") == 0 && errno != 0) ||
-		 (next_ops && _strcmp(next_ops->str, "||") == 0 && errno == 0)));
+		 (next_ops && _strcmp(next_ops->value, "&&") == 0 && errno != 0) ||
+		 (next_ops && _strcmp(next_ops->value, "||") == 0 && errno == 0)));
 }
 
 /**
@@ -98,13 +98,13 @@ int is_or_operator(char *buffer, int i)
 }
 
 /**
- * is_double_semicolon_operator - check if is or double_semicolon operator
+ * is_double_semicolon - check if is or double_semicolon operator
  * @buffer: buffer that will by checked
  * @i: index of buffer
  * Return: 1 if condition true 0 otherwise
  */
 
-int is_double_semicolon_operator(char *buffer, int i)
+int is_double_semicolon(char *buffer, int i)
 {
 	return (buffer[i] == ';' && buffer[i + 1] == ';');
 }

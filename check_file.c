@@ -1,6 +1,6 @@
 #include "shell.h"
 
-int is_file_or_directory_exist(char *path, struct stat *file_info);
+int is_file_or_dir_exist(char *path, struct stat *file_info);
 int is_file_and_executable(char *path, struct stat *file_info);
 int is_file(struct stat *file_info);
 int is_executable(char *path);
@@ -15,21 +15,21 @@ int check_file(char *path)
 {
 	struct stat file_info;
 
-	if (is_file_or_directory_exist(path, &file_info))
+	if (is_file_or_dir_exist(path, &file_info))
 		return (is_file_and_executable(path, &file_info));
 
-	errno = COMMAND_NOT_FOUND;
+	errno = CMD_NOT_FOUND;
 	return (errno);
 }
 
 /**
- * is_file_or_directory_exist - checks if the file or the directory exist,
+ * is_file_or_dir_exist - checks if the file or the directory exist,
  * @path: path of the file
  * @file_info: file info
  * Return: 1 if condition true 0 otherwise
  */
 
-int is_file_or_directory_exist(char *path, struct stat *file_info)
+int is_file_or_dir_exist(char *path, struct stat *file_info)
 {
 	return (stat(path, file_info) != -1);
 }

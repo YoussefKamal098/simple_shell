@@ -5,10 +5,10 @@ char *get_env_key_from_buffer(char *buffer, size_t *i);
 int is_dollar_sign(char *buffer, size_t i);
 
 /**
- * expand_variables - expand variables
+ * expand_vars - expand variables
  * @info: program information
  */
-void expand_variables(program_info_t *info)
+void expand_vars(program_info_t *info)
 {
 	size_t i, j = 0;
 	char curr_cmd_expansion[BUFFER_SIZE] = {'\0'}, *temp, *expansion;
@@ -38,7 +38,7 @@ void expand_variables(program_info_t *info)
 		else if (curr_cmd[i] == '$' && !is_dollar_sign(curr_cmd, i))
 		{
 			temp = get_env_key_from_buffer(curr_cmd, &i);
-			expansion = get_key(info->env, temp), free(temp);
+			expansion = get_dict_key(info->env, temp), free(temp);
 			if (expansion)
 				j = buffer_add(curr_cmd_expansion, expansion);
 		}

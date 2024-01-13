@@ -14,7 +14,7 @@ void handle_ctrl_c_signal(int sig);
 
 int main(int ac, char **av, char **env)
 {
-	program_info_t info = PROGRAM_INFO_INITIAL;
+	program_info_t info = PROGRAM_INFO_INIT;
 	char *prompt = "";
 
 	init_program_info(&info, ac, av, env);
@@ -24,7 +24,7 @@ int main(int ac, char **av, char **env)
 		prompt = PROMPT;
 
 	errno = 0;
-	run(&info, prompt);
+	hsh(&info, prompt);
 	return (0);
 }
 

@@ -83,11 +83,11 @@ long int _atoi(char *str)
 }
 
 /**
- * is_pos_integer - check if str is number or not
+ * is_pos_int - check if str is number or not
  * @str: string
  * Return: 1 if condition true 0 otherwise
  */
-int is_pos_integer(char *str)
+int is_pos_int(char *str)
 {
 	size_t i;
 

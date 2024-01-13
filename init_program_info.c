@@ -15,13 +15,13 @@ void init_program_info(program_info_t *info, int ac, char **av, char **env)
 
 	if (ac == 1)
 	{
-		info->file_descriptor = STDIN_FILENO;
+		info->fd = STDIN_FILENO;
 	}
 	else
 	{
-		info->file_descriptor = open(av[1], O_RDONLY);
-		if (info->file_descriptor == -1)
-			print_open_file_error_msg(info, av[1]), exit(127);
+		info->fd = open(av[1], O_RDONLY);
+		if (info->fd == -1)
+			print_open_file_err_msg(info, av[1]), exit(127);
 	}
 
 	if (env)
@@ -41,7 +41,9 @@ void init_info_env(program_info_t *info, char **env)
 	{
 		for (j = 0; env[i][j] != '='; j++)
 			;
+
 		env[i][j] = '\0';
-		dict_push(&info->env, &env[i][0], &env[i][j + 1]);
+		if (env[i][j + 1] != '\0')
+			dict_push(&info->env, &env[i][0], &env[i][j + 1]);
 	}
 }

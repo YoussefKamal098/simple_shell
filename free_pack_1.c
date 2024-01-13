@@ -13,7 +13,8 @@ void free_curr_program_info(program_info_t *info)
 	if (info->curr_cmd_name)
 		free(info->curr_cmd_name);
 
-	info->curr_cmd = NULL, info->curr_cmd_name = NULL;
+	info->curr_cmd = NULL;
+	info->curr_cmd_name = NULL;
 }
 
 /**
@@ -22,8 +23,8 @@ void free_curr_program_info(program_info_t *info)
  */
 void free_all_program_info(program_info_t *info)
 {
-	if (info->file_descriptor != STDIN_FILENO)
-		if (close(info->file_descriptor))
+	if (info->fd != STDIN_FILENO)
+		if (close(info->fd))
 			perror(info->name);
 
 	free_curr_program_info(info);
@@ -59,8 +60,10 @@ void free_list(list_t **head)
 	if (!head || !*head)
 		return;
 
-	temp = *head, free_list(&temp->next);
-	free(temp->str), free(temp), *head = NULL;
+	temp = *head;
+	free_list(&temp->next);
+	free_list_node(&temp);
+	*head = NULL;
 }
 
 /**
@@ -75,5 +78,8 @@ void free_list_node(list_t **node)
 	if (!node || !*node)
 		return;
 
-	temp = *node, free(temp->str), free(temp), *node = NULL;
+	temp = *node;
+	free(temp->value);
+	free(temp);
+	*node = NULL;
 }

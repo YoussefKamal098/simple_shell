@@ -19,27 +19,28 @@ size_t list_len(const list_t *head)
 /**
  * list_push - add node to end of the list
  * @head: head of the list
- * @str: string of the node
+ * @value: string of the node
  * Return: 0  or -1 if head is NULL or malloc failed
  */
 
-int list_push(list_t **head, char *str)
+int list_push(list_t **head, char *value)
 {
-	list_t *node, *temp;
+	list_t *node, *curr;
 
 	if (!head)
 		return (-1);
 
-	node = malloc(sizeof(list_t));
+	node = (list_t *)malloc(sizeof(list_t));
 	if (!node)
 	{
 		errno = ENOMEM, perror("Error");
 		return (-1);
 	}
 
-	node->str = _strdup(str);
-	if (!node->str)
+	node->value = _strdup(value);
+	if (!node->value)
 	{
+		errno = ENOMEM, perror("Error");
 		free(node);
 		return (-1);
 	}
@@ -51,11 +52,11 @@ int list_push(list_t **head, char *str)
 		return (0);
 	}
 
-	temp = *head;
-	while (temp->next)
-		temp = temp->next;
+	curr = *head;
+	while (curr->next)
+		curr = curr->next;
 
-	temp->next = node;
+	curr->next = node;
 	return (0);
 }
 
@@ -72,7 +73,7 @@ size_t print_list(const list_t *head, char *delimeter)
 
 	while (head)
 	{
-		_puts(head->str);
+		_puts(head->value);
 		_puts(delimeter);
 		head = head->next, size++;
 	}

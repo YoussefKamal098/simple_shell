@@ -52,19 +52,19 @@ void tokenize_curr_cmd(program_info_t *info)
 
 char **tokenize_env_path(program_info_t *info)
 {
-	size_t i, directories_counter = 0;
+	size_t i, dirs_counter = 0;
 	char **tokens, *token, *path, *delimiter = ":";
 
-	path = _strdup(get_key(info->env, "PATH"));
+	path = _strdup(get_dict_key(info->env, "PATH"));
 
 	if (!path || path[0] == '\0')
 		return (NULL);
 
 	for (i = 0; path[i]; i++)
 		if (path[i] == *delimiter)
-			directories_counter++;
+			dirs_counter++;
 
-	tokens = (char **)malloc(sizeof(char *) * (directories_counter + 2));
+	tokens = (char **)malloc(sizeof(char *) * (dirs_counter + 2));
 	if (!tokens)
 	{
 		errno = ENOMEM, perror("Error");
@@ -76,7 +76,7 @@ char **tokenize_env_path(program_info_t *info)
 	{
 		i++, token = _strtok(NULL, delimiter);
 		if (token)
-			tokens[i] = str_concat(token, "/");
+			tokens[i] = strconcat(token, "/");
 	}
 
 	tokens[i] = NULL, free(path);
@@ -93,31 +93,31 @@ char **tokenize_env_path(program_info_t *info)
 void tokenize_buffer(char *buffer, list_t **next_cmds, list_t **next_ops)
 {
 	size_t i, j = 0;
-	char command[BUFFER_SIZE];
+	char cmd[BUFFER_SIZE];
 
 	for (i = 0; buffer[i]; i++)
 	{
 		if (is_and_operator(buffer, i) || is_or_operator(buffer, i))
 		{
-			command[j] = '\0';
-			list_push(next_cmds, command);
+			cmd[j] = '\0';
+			list_push(next_cmds, cmd);
 			list_push(next_ops, buffer[i] == '&' ? "&&" : "||");
 
 			i++, j = 0;
 		}
 		else if (buffer[i] == ';' || buffer[i] == '\n')
 		{
-			command[j] = '\0';
-			if (command[0] != '\0')
-				list_push(next_cmds, command);
+			cmd[j] = '\0';
+			if (cmd[0] != '\0')
+				list_push(next_cmds, cmd);
 			if (buffer[i] == ';')
 				list_push(next_ops, ";");
 			j = 0;
 		}
 		else
-			command[j] = buffer[i], j++;
+			cmd[j] = buffer[i], j++;
 	}
 
 	if (j != 0)
-		command[j] = '\0', list_push(next_cmds, command);
+		cmd[j] = '\0', list_push(next_cmds, cmd);
 }

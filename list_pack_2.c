@@ -3,13 +3,13 @@
 /**
  * shift_list - remove first node in list
  * @head: head of the list
- * Return: removed node str or NULL if head is NULL
+ * Return: removed node value or NULL if head is NULL
  */
 
 char *shift_list(list_t **head)
 {
 	list_t *temp;
-	char *str;
+	char *value;
 
 	if (!head || !*head)
 		return (NULL);
@@ -18,23 +18,23 @@ char *shift_list(list_t **head)
 	*head = temp->next;
 	temp->next = NULL;
 
-	str = _strdup(temp->str);
+	value = _strdup(temp->value);
 	free_list_node(&temp);
-	return (str);
+	return (value);
 }
 
 /**
- * get_list_node_str_at_index - get_node_str_at_index
+ * get_list_node_value_at_index - get_node_str_at_index
  * @head: head of the list
  * @index: index of the node
- * Return: node str at index
+ * Return: node value at index
  */
-char *get_list_node_str_at_index(list_t *head, size_t index)
+char *get_list_node_value_at_index(list_t *head, size_t index)
 {
 	while (index-- && head)
 		head = head->next;
 
-	return (head ? head->str : NULL);
+	return (head ? head->value : NULL);
 }
 
 /**
@@ -47,7 +47,7 @@ char **list_to_strs(list_t *head)
 {
 	size_t len = list_len(head), i;
 	list_t *node = head;
-	char **list, *str;
+	char **list, *value;
 
 	if (!head || !len)
 		return (NULL);
@@ -61,8 +61,8 @@ char **list_to_strs(list_t *head)
 
 	for (i = 0; node; node = node->next, i++)
 	{
-		str = malloc(_strlen(node->str) + 1);
-		if (!str)
+		value = malloc(_strlen(node->value) + 1);
+		if (!value)
 		{
 			errno = ENOMEM, perror("Error");
 			list[i] = NULL;
@@ -71,7 +71,7 @@ char **list_to_strs(list_t *head)
 			return (NULL);
 		}
 
-		str = _strcpy(str, node->str), list[i] = str;
+		value = _strcpy(value, node->value), list[i] = value;
 	}
 
 	list[i] = NULL;
@@ -79,14 +79,14 @@ char **list_to_strs(list_t *head)
 }
 
 /**
- * update_list_node_str_at_index - update_list_node_str_at_index
+ * update_list_node_value_at_index - update_list_node_value_at_index
  * @head: head of the list
- * @str: string that will replace node string
+ * @value: string that will replace node string
  * @index: index of node
  * Return: 0 if success, -1 otherwise
  */
 
-int update_list_node_str_at_index(list_t *head, char *str, size_t index)
+int update_list_node_value_at_index(list_t *head, char *value, size_t index)
 {
 	list_t *curr;
 
@@ -100,7 +100,7 @@ int update_list_node_str_at_index(list_t *head, char *str, size_t index)
 	if (!curr)
 		return (-1);
 
-	free(curr->str);
-	curr->str = _strdup(str);
+	free(curr->value);
+	curr->value = _strdup(value);
 	return (0);
 }

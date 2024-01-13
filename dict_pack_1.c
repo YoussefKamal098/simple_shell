@@ -26,13 +26,12 @@ size_t dict_len(const dict_t *head)
 
 int dict_push(dict_t **head, char *key, char *value)
 {
-	dict_t *node, *temp;
+	dict_t *node, *curr;
 
 	if (!head)
 		return (-1);
 
 	node = (dict_t *)malloc(sizeof(dict_t));
-
 	if (!node)
 	{
 		errno = ENOMEM, perror("Error");
@@ -42,13 +41,14 @@ int dict_push(dict_t **head, char *key, char *value)
 	node->key = _strdup(key);
 	if (!node->key)
 	{
-		free(node);
+		errno = ENOMEM, perror("Error"), free(node);
 		return (-1);
 	}
 
 	node->value = _strdup(value);
 	if (!node->value)
 	{
+		errno = ENOMEM, perror("Error");
 		free(node->key), free(node);
 		return (-1);
 	}
@@ -60,11 +60,11 @@ int dict_push(dict_t **head, char *key, char *value)
 		return (0);
 	}
 
-	temp = *head;
-	while (temp->next)
-		temp = temp->next;
+	curr = *head;
+	while (curr->next)
+		curr = curr->next;
 
-	temp->next = node;
+	curr->next = node;
 	return (0);
 }
 
