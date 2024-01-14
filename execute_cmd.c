@@ -1,18 +1,19 @@
 #include "shell.h"
 
 /**
- * execute_cmd - execute a command with arguments.
+ * execute_cmd - execute the command with arguments.
  * @info: program information
- * Return: 0 if success error code otherwise
+ * Return: 0 if success or error code otherwise
  */
 
 int execute_cmd(program_info_t *info)
 {
-	int (*builtin_cmd)(program_info_t *info) = find_builtin_cmd(info);
+	int (*builtin_cmd)(program_info_t *info);
 	char *file_path, **curr_cmd_tokens, **env;
 	int code, status;
 	pid_t pid;
 
+	builtin_cmd = find_builtin_cmd(info);
 	if (builtin_cmd)
 		return (builtin_cmd(info));
 
@@ -44,7 +45,7 @@ int execute_cmd(program_info_t *info)
 			errno = 128 + WTERMSIG(status);
 	}
 
-	free_array_of_pointers(env);
-	free_array_of_pointers(curr_cmd_tokens);
+	free_pointers_arr(env);
+	free_pointers_arr(curr_cmd_tokens);
 	return (0);
 }

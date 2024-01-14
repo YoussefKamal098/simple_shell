@@ -1,18 +1,17 @@
 #include "shell.h"
 
 /**
- * tokenize_curr_cmd - separate the string with delimiters
+ * tokenize_curr_cmd - tokenize current command with ' ', \t delimiters
  * @info: program information
  */
 
 void tokenize_curr_cmd(program_info_t *info)
 {
-	char *delimiters = " \t";
+	char *delims = " \t";
 	char *curr_cmd, *token;
 
 	curr_cmd = _strdup(info->curr_cmd);
-
-	token = _strtok(curr_cmd, delimiters);
+	token = _strtok(curr_cmd, delims);
 	if (!token)
 	{
 		free(curr_cmd);
@@ -24,7 +23,7 @@ void tokenize_curr_cmd(program_info_t *info)
 
 	while (token)
 	{
-		token = _strtok(NULL, delimiters);
+		token = _strtok(NULL, delims);
 		if (token)
 			list_push(&info->curr_cmd_tokens, token);
 	}
@@ -33,16 +32,16 @@ void tokenize_curr_cmd(program_info_t *info)
 }
 
 /**
- * tokenize_env_path - separate the PATH environment variable with
- * ':' character
+ * tokenize_env_path - tokenize current PATH environment variable with
+ * ':' delimiters
  * @info: program information
- * Return: pointer of directories (strings)
+ * Return: array of strings (directories)
  */
 
 char **tokenize_env_path(program_info_t *info)
 {
 	size_t i, dirs_counter = 0;
-	char **tokens, *token, *path, *delimiter = ":";
+	char **tokens, *token, *path, *delims = ":";
 
 	path = _strdup(get_dict_key(info->env, "PATH"));
 
@@ -50,7 +49,7 @@ char **tokenize_env_path(program_info_t *info)
 		return (NULL);
 
 	for (i = 0; path[i]; i++)
-		if (path[i] == *delimiter)
+		if (path[i] == *delims)
 			dirs_counter++;
 
 	tokens = (char **)malloc(sizeof(char *) * (dirs_counter + 2));
@@ -61,11 +60,11 @@ char **tokenize_env_path(program_info_t *info)
 	}
 
 	i = 0;
-	token = _strtok(path, delimiter);
+	token = _strtok(path, delims);
 	while (token)
 	{
 		tokens[i] = strconcat(token, "/");
-		i++, token = _strtok(NULL, delimiter);
+		i++, token = _strtok(NULL, delims);
 	}
 
 	tokens[i] = NULL, free(path);
@@ -73,37 +72,35 @@ char **tokenize_env_path(program_info_t *info)
 }
 
 /**
- * tokenize_buffer - separate the buffer with delimiters
- * (|| && '\n' ;) to set of commands
+ * tokenize_input_line - tokenize input line with  (|| && '\n' ;) delimiters
  * @info: program information
- * @buffer: buffer of getline function
+ * @input_line: input line
  */
-void tokenize_buffer(program_info_t *info, char *buffer)
+void tokenize_input_line(program_info_t *info, char *input_line)
 {
 	size_t i, j = 0;
-	char cmd[BUFFER_SIZE];
+	char cmd[BUFF_SIZE];
 
-	for (i = 0; buffer[i]; i++)
+	for (i = 0; input_line[i]; i++)
 	{
-		if (is_and_operator(buffer, i) || is_or_operator(buffer, i))
+		if (is_and_operator(input_line, i) || is_or_operator(input_line, i))
 		{
 			cmd[j] = '\0';
 			list_push(&info->next_cmds, cmd);
-			list_push(&info->next_operators, buffer[i] == '&' ? "&&" : "||");
-
+			list_push(&info->next_operators, input_line[i] == '&' ? "&&" : "||");
 			i++, j = 0;
 		}
-		else if (buffer[i] == ';' || buffer[i] == '\n')
+		else if (input_line[i] == ';' || input_line[i] == '\n')
 		{
 			cmd[j] = '\0';
 			if (cmd[0] != '\0')
 				list_push(&info->next_cmds, cmd);
-			if (buffer[i] == ';')
+			if (input_line[i] == ';')
 				list_push(&info->next_operators, ";");
 			j = 0;
 		}
 		else
-			cmd[j] = buffer[i], j++;
+			cmd[j] = input_line[i], j++;
 	}
 
 	if (j != 0)

@@ -6,7 +6,7 @@ int is_exist(int code);
 /**
  * find_program - find executable program
  * @info: program information
- * Return: 0 if success, error code otherwise
+ * Return: 0 if success or error code otherwise
  */
 
 int find_program(program_info_t *info)
@@ -34,7 +34,7 @@ int find_program(program_info_t *info)
 		{
 			errno = 0;
 			update_list_node_value_at_index(info->curr_cmd_tokens, file_path, 0);
-			free_array_of_pointers(dirs), free(file_path);
+			free_pointers_arr(dirs), free(file_path);
 			return (code);
 		}
 
@@ -42,14 +42,14 @@ int find_program(program_info_t *info)
 	}
 
 	free_list(&info->curr_cmd_tokens);
-	free_array_of_pointers(dirs);
+	free_pointers_arr(dirs);
 	return (code);
 }
 
 /**
  * is_path - check if it is a path
  * @info: program information
- * Return: 1 if condition true 0 otherwise
+ * Return: 1 if condition true or 0 otherwise
  */
 
 int is_path(program_info_t *info)
@@ -61,7 +61,7 @@ int is_path(program_info_t *info)
  * is_exist - check if the return code of check_file function
  *  means that file or directory exist
  * @code: error code
- * Return: 1 if condition true 0 otherwise
+ * Return: 1 if condition true pr 0 otherwise
  */
 
 int is_exist(int code)

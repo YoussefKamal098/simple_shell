@@ -13,9 +13,7 @@ int builtin_exit_cmd(program_info_t *info)
 	if (second_token)
 	{
 		if (is_pos_int(second_token))
-		{
 			errno = _atoi(second_token);
-		}
 		else
 		{
 			errno = ENOENT;

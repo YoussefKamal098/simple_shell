@@ -30,7 +30,7 @@ dealing with specific features provided by POSIX-compliant systems.
 #include <fcntl.h>
 /* for open files, open function */
 
-#define BUFFER_SIZE 1024
+#define BUFF_SIZE 1024
 #define PROMPT "$ "
 
 #define PROGRAM_INFO_INIT                                         \
@@ -47,25 +47,25 @@ dealing with specific features provided by POSIX-compliant systems.
 
 /**
  * struct list - list of strings
- * @value: string of the node
+ * @val: string of the node
  * @next: next node
  */
 typedef struct list
 {
-	char *value;
+	char *val;
 	struct list *next;
 } list_t;
 
 /**
  * struct dict - list of key values variables
  * @key: key of node
- * @value: value of node
+ * @val: val of node
  * @next: next node
  */
 typedef struct dict
 {
 	char *key;
-	char *value;
+	char *val;
 	struct dict *next;
 } dict_t;
 
@@ -117,19 +117,19 @@ void hsh(program_info_t *info, char *prompt);
 int execute_cmd(program_info_t *info);
 
 /* _strtok.c */
-char *_strtok(char *value, char *delimiters);
+char *_strtok(char *val, char *delims);
 
 /* tokenize.c */
 void tokenize_curr_cmd(program_info_t *info);
 char **tokenize_env_path(program_info_t *info);
-void tokenize_buffer(program_info_t *info, char *buffer);
+void tokenize_input_line(program_info_t *info, char *buff);
 
 /* validate_buffer.c  */
-int validate_buffer(program_info_t *info, char *buffer);
+int validate_input_line(program_info_t *info, char *buff);
 
 /* dict_management.c */
 char *get_dict_key(dict_t *head, char *key);
-int set_dict_key(dict_t **head, char *key, char *value);
+int set_dict_key(dict_t **head, char *key, char *val);
 int unset_dict_key(dict_t **head, char *key);
 
 /* find_builtin_cmd.c */
@@ -143,8 +143,11 @@ int builtin_env_cmd(program_info_t *info);
 int builtin_setenv_cmd(program_info_t *info);
 int builtin_unsetenv_cmd(program_info_t *info);
 
-/* builtin_cmd_command.c  */
+/* builtin_cd_command.c  */
 int builtin_cd_cmd(program_info_t *info);
+
+/* builtin_alias_command.c  */
+int builtin_alias_cmd(program_info_t *info);
 
 /* find_program.c */
 int find_program(program_info_t *info);
@@ -153,21 +156,22 @@ int find_program(program_info_t *info);
 int check_file(char *path);
 
 /* get_curr_cmd.c */
-int _getline(int fd, char *buffer, size_t size);
+int _getline(int fd, char *buff, size_t size);
 
 /* get_curr_cmd.c */
 int get_curr_cmd(program_info_t *info);
-int is_and_operator(char *buffer, int i);
-int is_or_operator(char *buffer, int i);
-int is_double_semicolon(char *buffer, int i);
+int is_and_operator(char *input_line, int i);
+int is_or_operator(char *input_line, int i);
+int is_double_semicolon(char *input_line, int i);
 
 /* expansion.c */
 void expand_vars(program_info_t *info);
+void expand_alias(program_info_t *info);
 
 /* free_pack_1.c */
 void free_curr_program_info(program_info_t *info);
 void free_all_program_info(program_info_t *info);
-void free_array_of_pointers(char **array);
+void free_pointers_arr(char **arr);
 void free_list(list_t **head);
 void free_list_node(list_t **node);
 
@@ -176,26 +180,29 @@ void free_dict(dict_t **head);
 void free_dict_node(dict_t **node);
 
 /* str_pack_1.c */
-size_t _strlen(char *value);
+size_t _strlen(char *val);
 char *_strcpy(char *dest, char *src);
 char *strconcat(char *str1, char *str2);
 int _strcmp(char *str1, char *str2);
-char *_strdup(char *value);
+char *_strdup(char *val);
 
 /* str_pack_2.c */
 size_t count_digit(size_t num);
-int _isdigit(char c);
+int _isdigit(char ch);
+char *get_substr_form_to(char *str, size_t i, size_t j);
 
 /* str_pack_3.c */
-char *str_n_concat(size_t n, ...);
-int is_space(char *value);
-int is_empty_str(char *value);
+char *str_n_concat(size_t num, ...);
+int is_space(char *val);
+int is_empty_str(char *val);
+int get_delimiter_index(char *str, char *delims);
+int add_buffer(char *buff, char *str);
 
 /* print.c */
-int _puts(char *value);
+int _puts(char *val);
 
 /* print_error_1.c */
-int _eputs(char *value);
+int _eputs(char *val);
 void print_stderr_msg(program_info_t *info, int code);
 void print_err_msg(program_info_t *info, char *msg);
 void print_prefix_err_msg(program_info_t *info);
@@ -210,30 +217,30 @@ void print_no_such_file_or_dir_err_msg(program_info_t *info);
 
 /* numbers_pack.c */
 char *_itoa(long int num, int is_unsigned);
-long int _atoi(char *value);
-int is_pos_int(char *value);
+long int _atoi(char *val);
+int is_pos_int(char *val);
 
 /* list_pack_1.c */
 size_t list_len(const list_t *head);
-size_t print_list(const list_t *head, char *delimeter);
-int list_push(list_t **head, char *value);
+size_t print_list(const list_t *head, char *delims);
+int list_push(list_t **head, char *val);
 
 /* list_pack_2.c */
 char *shift_list(list_t **head);
-char *get_list_node_value_at_index(list_t *head, size_t index);
+char *get_list_node_value_at_index(list_t *head, size_t idx);
 char **list_to_strs(list_t *head);
-int update_list_node_value_at_index(list_t *head, char *value, size_t index);
+int update_list_node_value_at_index(list_t *head, char *val, size_t idx);
 
 /* dict_pack_1.c */
 size_t dict_len(const dict_t *head);
-size_t print_dict(const dict_t *head, char *delimeter);
-int dict_push(dict_t **head, char *key, char *value);
+size_t print_dict(const dict_t *head, char *delims, char *val_surround);
+int dict_push(dict_t **head, char *key, char *val);
 
 /* dict_pack_2.c */
-int remove_dict_node_at_index(dict_t **head, size_t index);
+int remove_dict_node_at_index(dict_t **head, size_t idx);
 int dict_search(dict_t *head, char *key);
-int update_dict_node_value_at_index(dict_t *head, char *value, size_t index);
-char *get_dict_node_value_at_index(dict_t *head, size_t index);
-char **dict_to_strs(dict_t *head, char *delimeter);
+int update_dict_node_value_at_index(dict_t *head, char *val, size_t idx);
+char *get_dict_node_value_at_index(dict_t *head, size_t idx);
+char **dict_to_strs(dict_t *head, char *delims);
 
 #endif /* SHELL_H */

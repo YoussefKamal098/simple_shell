@@ -83,9 +83,9 @@ long int _atoi(char *str)
 }
 
 /**
- * is_pos_int - check if str is number or not
+ * is_pos_int - check if string is positive number
  * @str: string
- * Return: 1 if condition true 0 otherwise
+ * Return: 1 if condition true or 0 otherwise
  */
 int is_pos_int(char *str)
 {

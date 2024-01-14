@@ -5,31 +5,31 @@ char *skip_delimiters(char *str, char *delimiters);
 /**
  * _strtok - separate string with specific delimiters
  * @str: string
- * @delimiters: delimiters
- * Return: portion of string
+ * @delims: delimiters
+ * Return: sub string of string
  */
 
-char *_strtok(char *str, char *delimiters)
+char *_strtok(char *str, char *delims)
 {
 	static char *str_copy;
-	char *portion;
+	char *substr;
 	size_t i;
 	int flag;
 
 	if (str)
-		str_copy = skip_delimiters(str, delimiters);
+		str_copy = skip_delimiters(str, delims);
 
 	if (*str_copy == '\0')
 		return (NULL);
 
-	portion = str_copy;
+	substr = str_copy;
 
 	for (; *str_copy; str_copy++)
 	{
 		flag = 0;
-		for (i = 0; delimiters[i]; i++)
+		for (i = 0; delims[i]; i++)
 		{
-			if (*str_copy == delimiters[i])
+			if (*str_copy == delims[i])
 			{
 				*str_copy = '\0';
 				str_copy++;
@@ -40,19 +40,19 @@ char *_strtok(char *str, char *delimiters)
 
 		if (flag)
 		{
-			str_copy = skip_delimiters(str_copy, delimiters);
+			str_copy = skip_delimiters(str_copy, delims);
 			break;
 		}
 	}
 
-	return (portion);
+	return (substr);
 }
 
 /**
  * skip_delimiters - skip string delimiters
  * @str: string
  * @delimiters: delimiters
- * Return: pointer of string
+ * Return: string
  */
 
 char *skip_delimiters(char *str, char *delimiters)

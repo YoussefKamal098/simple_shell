@@ -5,10 +5,10 @@ int handle_signals(void);
 void handle_ctrl_c_signal(int sig);
 
 /**
- * main - entry point
- * @av: number of arguments.
- * @ac: array of pointers to the arguments.
- * @env: array of pointers to environment variables.
+ * main - entry point of program
+ * @ac: number of arguments.
+ * @av: array of strings to the arguments.
+ * @env: array of strings to environment variables.
  * Return: always 0
  */
 
@@ -29,9 +29,9 @@ int main(int ac, char **av, char **env)
 }
 
 /**
- * is_interactive_mode - is interactive mode
- * @ac: An array of pointers to the command-line arguments.
- * Return: 0 if condition true otherwise false
+ * is_interactive_mode - check if it is interactive mode
+ * @ac: number of arguments.
+ * Return: 1 if condition true or 0 otherwise
  */
 
 int is_interactive_mode(int ac)
@@ -41,7 +41,7 @@ int is_interactive_mode(int ac)
 
 /**
  * handle_signals - handle signals
- * Return: 0 if success, 1 if failed
+ * Return: 0 if success or 1 if it failed
  */
 
 int handle_signals(void)

@@ -9,7 +9,7 @@ int is_executable(char *path);
  * check_file - checks if the file exists and not a directory,
  * and it has execution permissions.
  * @path: path of the file
- * Return: 0 on success, or error code  otherwise
+ * Return: 0 on success or error code otherwise
  */
 int check_file(char *path)
 {
@@ -38,7 +38,7 @@ int is_file_or_dir_exist(char *path, struct stat *file_info)
  * is_file_and_executable - check if it is a file and executable
  * @path: path of the file
  * @file_info: file information
- * Return: 0 if condition true 126 otherwise
+ * Return: 0 if condition true or error code otherwise
  */
 
 int is_file_and_executable(char *path, struct stat *file_info)
@@ -55,7 +55,7 @@ int is_file_and_executable(char *path, struct stat *file_info)
 /**
  * is_file - check if it is a file
  * @file_info: file information
- * Return: 1 if condition true 0 otherwise
+ * Return: 1 if condition true or 0 otherwise
  */
 
 int is_file(struct stat *file_info)
@@ -66,7 +66,7 @@ int is_file(struct stat *file_info)
 /**
  * is_executable - check if it the file or directory executable
  * @path: path of the file
- * Return:1 if condition true 0 otherwise
+ * Return:1 if condition true 0 or otherwise
  */
 
 int is_executable(char *path)

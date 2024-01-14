@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * dict_len - length of the dictionary
+ * dict_len - get size of the dictionary
  * @head: head of the dictionary
  * Return: size of dictionary
  */
@@ -17,14 +17,14 @@ size_t dict_len(const dict_t *head)
 }
 
 /**
- * dict_push - add node to end of the dictionary
+ * dict_push - add node to the dictionary
  * @head: head of the dictionary
  * @key: key of the node
- * @value: value of the node
- * Return: 0  or -1 if head is NULL or malloc failed
+ * @val: value of the node
+ * Return: 0 if success or -1 if head is NULL or malloc failed
  */
 
-int dict_push(dict_t **head, char *key, char *value)
+int dict_push(dict_t **head, char *key, char *val)
 {
 	dict_t *node, *curr;
 
@@ -45,8 +45,8 @@ int dict_push(dict_t **head, char *key, char *value)
 		return (-1);
 	}
 
-	node->value = _strdup(value);
-	if (!node->value)
+	node->val = _strdup(val);
+	if (!node->val)
 	{
 		errno = ENOMEM, perror("Error");
 		free(node->key), free(node);
@@ -69,21 +69,24 @@ int dict_push(dict_t **head, char *key, char *value)
 }
 
 /**
- * print_dict - print strings of the dictionary with delimiter
+ * print_dict - print key value of the dictionary
  * @head: head of the dictionary
- * @delimeter: delimeter
+ * @delims: delimiters
+ * @val_surround: surrounding variable value with specific string
  * Return: size of dictionary
  */
 
-size_t print_dict(const dict_t *head, char *delimeter)
+size_t print_dict(const dict_t *head, char *delims, char *val_surround)
 {
 	size_t size = 0;
 
 	while (head)
 	{
 		_puts(head->key);
-		_puts(delimeter);
-		_puts(head->value);
+		_puts(delims);
+		_puts(val_surround);
+		_puts(head->val);
+		_puts(val_surround);
 		_puts("\n");
 		head = head->next, size++;
 	}

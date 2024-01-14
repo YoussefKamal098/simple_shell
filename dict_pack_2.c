@@ -1,17 +1,18 @@
 #include "shell.h"
 
 /**
- * dict_to_strs - convert dictionary to pointer of strings
+ * dict_to_strs - convert dictionary to array of strings
  * @head: head of the dictionary
- * @delimeter: concatenate key with value with it
- * Return: pointer of strings
+ * @delims: concatenate key with value with it
+ * Return: array of strings
  */
-char **dict_to_strs(dict_t *head, char *delimeter)
+char **dict_to_strs(dict_t *head, char *delims)
 {
-	size_t len = dict_len(head), i;
-	dict_t *curr = head;
+	size_t len, i;
+	dict_t *curr;
 	char **list, *str;
 
+	len = dict_len(head);
 	if (!head || !len)
 		return (NULL);
 
@@ -22,14 +23,14 @@ char **dict_to_strs(dict_t *head, char *delimeter)
 		return (NULL);
 	}
 
-	for (i = 0; curr; curr = curr->next, i++)
+	for (i = 0, curr = head; curr; curr = curr->next, i++)
 	{
-		str = str_n_concat(3, curr->key, delimeter, curr->value);
+		str = str_n_concat(3, curr->key, delims, curr->val);
 		if (!str)
 		{
 			errno = ENOMEM, perror("Error");
 			list[i] = NULL;
-			free_array_of_pointers(list);
+			free_pointers_arr(list);
 			free(list);
 			return (NULL);
 		}
@@ -42,13 +43,13 @@ char **dict_to_strs(dict_t *head, char *delimeter)
 }
 
 /**
- * remove_dict_node_at_index - remove dictionary curr at index
+ * remove_dict_node_at_index - remove dictionary node at index
  * @head: head of the dictionary
- * @index: index of the curr
+ * @idx: index of the node
  * Return: 1 if success
- * -1 if head is NULL or index greater or equal to list len
+ * -1 if head is NULL or index greater or equal to list length of dictionary
  */
-int remove_dict_node_at_index(dict_t **head, size_t index)
+int remove_dict_node_at_index(dict_t **head, size_t idx)
 {
 	dict_t *curr, *pre;
 	size_t i = 0;
@@ -57,7 +58,7 @@ int remove_dict_node_at_index(dict_t **head, size_t index)
 		return (-1);
 
 	curr = *head;
-	if (!index)
+	if (!idx)
 	{
 		*head = curr->next;
 		free_dict_node(&curr);
@@ -66,7 +67,7 @@ int remove_dict_node_at_index(dict_t **head, size_t index)
 
 	while (curr)
 	{
-		if (i == index)
+		if (i == idx)
 		{
 			pre->next = curr->next;
 			free_dict_node(&curr);
@@ -79,10 +80,10 @@ int remove_dict_node_at_index(dict_t **head, size_t index)
 }
 
 /**
- * dict_search - search in dictionary for prefix str
- * @head: head of the list
- * @key: key of curr
- * Return: index of curr or -1 if no curr string with prefix
+ * dict_search - search in dictionary for key
+ * @head: head of the dictionary
+ * @key: key of node
+ * Return: index of node or -1 if no node with key
  */
 int dict_search(dict_t *head, char *key)
 {
@@ -105,13 +106,13 @@ int dict_search(dict_t *head, char *key)
 }
 
 /**
- *  update_dict_node_value_at_index - update dictionary curr value at index
+ *  update_dict_node_value_at_index - update dictionary node value at index
  * @head: head of the dictionary
- * @value: value to to be replaced with curr value
- * @index: index of curr
- * Return: 0 if success, -1 otherwise
+ * @val: value to to be replaced with node value
+ * @idx: index of node
+ * Return: 0 if success or -1 otherwise
  */
-int update_dict_node_value_at_index(dict_t *head, char *value, size_t index)
+int update_dict_node_value_at_index(dict_t *head, char *val, size_t idx)
 {
 	dict_t *curr;
 
@@ -119,27 +120,27 @@ int update_dict_node_value_at_index(dict_t *head, char *value, size_t index)
 		return (-1);
 	curr = head;
 
-	while (curr && index--)
+	while (curr && idx--)
 		curr = curr->next;
 
 	if (!curr)
 		return (-1);
 
-	free(curr->value);
-	curr->value = _strdup(value);
+	free(curr->val);
+	curr->val = _strdup(val);
 	return (0);
 }
 
 /**
- * get_dict_node_value_at_index - get dictionary curr value at index
+ * get_dict_node_value_at_index - get dictionary node value at index
  * @head: head of the dictionary
- * @index: index of the curr
- * Return: curr value at index
+ * @idx: index of the node
+ * Return: node value at index or NULL if idex greater than dictionary length
  */
-char *get_dict_node_value_at_index(dict_t *head, size_t index)
+char *get_dict_node_value_at_index(dict_t *head, size_t idx)
 {
-	while (index-- && head)
+	while (idx-- && head)
 		head = head->next;
 
-	return (head ? head->value : NULL);
+	return (head ? head->val : NULL);
 }

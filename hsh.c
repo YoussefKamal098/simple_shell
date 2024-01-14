@@ -26,6 +26,7 @@ void hsh(program_info_t *info, char *prompt)
 		{
 			expand_vars(info);
 			tokenize_curr_cmd(info);
+			expand_alias(info);
 			if (info->curr_cmd_tokens)
 			{
 				code = execute_cmd(info);

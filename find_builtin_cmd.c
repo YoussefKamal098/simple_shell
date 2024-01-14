@@ -14,6 +14,7 @@ int (*find_builtin_cmd(program_info_t *info))(program_info_t *info)
 	    {"setenv", builtin_setenv_cmd},
 	    {"unsetenv", builtin_unsetenv_cmd},
 	    {"cd", builtin_cd_cmd},
+	    {"alias", builtin_alias_cmd},
 	    {NULL, NULL}};
 	size_t i;
 

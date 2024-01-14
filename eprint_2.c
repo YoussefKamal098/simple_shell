@@ -63,7 +63,7 @@ void print_unsupported_feature_err_msg(program_info_t *info, char *feature)
 
 /**
  * print_no_such_file_or_dir_err_msg - print no such file or directory
- * message to standard error
+ * error message to standard error
  * @info: program information
  */
 void print_no_such_file_or_dir_err_msg(program_info_t *info)

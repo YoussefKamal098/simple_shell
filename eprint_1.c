@@ -1,9 +1,9 @@
 #include "shell.h"
 
 /**
- * _eputs - print error message to standard error
+ * _eputs - print string to standard error
  * @str: string
- * Return: number of written bytes or -1 if fails to write
+ * Return: number of written bytes or -1 if it failed to write
  */
 
 int _eputs(char *str)
@@ -17,7 +17,7 @@ int _eputs(char *str)
 }
 
 /**
- * print_stderr_msg - print error message to standard error
+ * print_stderr_msg - print message to standard error
  * @info: program information
  * @err_code: error code
  */

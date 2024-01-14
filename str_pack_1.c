@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * _strlen - length of string
+ * _strlen - get length of string
  * @str: string
  * Return: length of string
  */
@@ -20,7 +20,7 @@ size_t _strlen(char *str)
 }
 
 /**
- * _strcpy - copy src to dest
+ * _strcpy - copy source string to destination string
  * @dest: destination string
  * @src: source string
  * Return: copied string or NULL if dest or src is NULL
@@ -41,7 +41,7 @@ char *_strcpy(char *dest, char *src)
 
 /**
  * strconcat - concatenate two strings
- * @str1:  string
+ * @str1: string
  * @str2: string
  * Return: concatenated string or NULL if malloc failed
  */
@@ -116,7 +116,7 @@ char *_strdup(char *str)
 	size_t len = 0;
 	char *str_dup;
 
-	if (!str || *str == '\0')
+	if (!str)
 		return (NULL);
 
 	len = _strlen(str);

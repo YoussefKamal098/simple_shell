@@ -31,23 +31,24 @@ void free_all_program_info(program_info_t *info)
 	free_list(&info->next_cmds);
 	free_list(&info->next_operators);
 	free_dict(&info->env);
+	free_dict(&info->alias);
 }
 
 /**
- * free_array_of_pointers - free array of pointer
- * @array: array of pointers
+ * free_pointers_arr - free array of strings
+ * @arr: array of strings
  */
-void free_array_of_pointers(char **array)
+void free_pointers_arr(char **arr)
 {
 	size_t i;
 
-	if (!array || !*array)
+	if (!arr || !*arr)
 		return;
 
-	for (i = 0; array[i]; i++)
-		free(array[i]);
+	for (i = 0; arr[i]; i++)
+		free(arr[i]);
 
-	free(array);
+	free(arr);
 }
 
 /**
@@ -69,8 +70,8 @@ void free_list(list_t **head)
 }
 
 /**
- * free_list_node - free node
- * @node: node of list
+ * free_list_node - free list node
+ * @node: node of the list
  */
 
 void free_list_node(list_t **node)
@@ -81,7 +82,7 @@ void free_list_node(list_t **node)
 		return;
 
 	temp = *node;
-	free(temp->value);
+	free(temp->val);
 	free(temp);
 	*node = NULL;
 }

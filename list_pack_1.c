@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * list_len - length of  the list
+ * list_len - length of the list
  * @head: head of the list
  * Return: length of list
  */
@@ -19,11 +19,11 @@ size_t list_len(const list_t *head)
 /**
  * list_push - add node to end of the list
  * @head: head of the list
- * @value: string of the node
- * Return: 0  or -1 if head is NULL or malloc failed
+ * @val: value of the node
+ * Return: 0 id success or -1 if head is NULL or malloc failed
  */
 
-int list_push(list_t **head, char *value)
+int list_push(list_t **head, char *val)
 {
 	list_t *node, *curr;
 
@@ -37,8 +37,8 @@ int list_push(list_t **head, char *value)
 		return (-1);
 	}
 
-	node->value = _strdup(value);
-	if (!node->value)
+	node->val = _strdup(val);
+	if (!node->val)
 	{
 		errno = ENOMEM, perror("Error");
 		free(node);
@@ -61,20 +61,20 @@ int list_push(list_t **head, char *value)
 }
 
 /**
- * print_list - print strings of the list with delimiter
+ * print_list - print value of the list with delimiter
  * @head: head of the list
- * @delimeter: delimeter
+ * @delims: delimiters
  * Return: length of list
  */
 
-size_t print_list(const list_t *head, char *delimeter)
+size_t print_list(const list_t *head, char *delims)
 {
 	size_t size = 0;
 
 	while (head)
 	{
-		_puts(head->value);
-		_puts(delimeter);
+		_puts(head->val);
+		_puts(delims);
 		head = head->next, size++;
 	}
 

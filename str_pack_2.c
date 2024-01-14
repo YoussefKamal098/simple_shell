@@ -3,8 +3,8 @@
 /**
  * is_starts_with - is string starts with prefix
  * @str: string
- * @prefix: prefix string
- * Return: 1 if str starts with prefix 0 otherwise
+ * @prefix: prefix
+ * Return: 1 if string starts with prefix or 0 otherwise
  */
 int is_starts_with(char *str, char *prefix)
 {
@@ -20,7 +20,7 @@ int is_starts_with(char *str, char *prefix)
 /**
  * count_digit - count number digit
  * @num: number
- * Return: length of number
+ * Return: number of digits
  */
 
 size_t count_digit(size_t num)
@@ -37,11 +37,45 @@ size_t count_digit(size_t num)
 }
 
 /**
- * _isdigit - _isdigit
- * @c: c
- * Return: 1 if characters is digit 0 otherwise
+ * _isdigit - check if character is digit
+ * @ch: character
+ * Return: 1 if the characters is digit or 0 otherwise
  */
-int _isdigit(char c)
+int _isdigit(char ch)
 {
-	return (c >= '0' && c <= '9');
+	return (ch >= '0' && ch <= '9');
+}
+
+/**
+ * get_substr_form_to - get substring form index i to index j
+ * @str: string
+ * @i:start index
+ * @j:end index
+ * Return: substring or NULL if str is NULL or
+ * i greater than j or j greater that str length
+ */
+
+char *get_substr_form_to(char *str, size_t i, size_t j)
+{
+	size_t dest_idx, src_idx, substr_len;
+	char *sub_str;
+
+	if (!str || i > j || _strlen(str) < j)
+		return (NULL);
+
+	substr_len = j - i + 1;
+	sub_str = (char *)malloc(substr_len + 1);
+	if (!sub_str)
+	{
+
+		errno = ENOMEM, perror("Error");
+		return (NULL);
+	}
+
+	dest_idx = 0;
+	for (src_idx = i; src_idx < j && str[src_idx]; src_idx++, dest_idx++)
+		sub_str[dest_idx] = str[src_idx];
+
+	sub_str[dest_idx] = '\0';
+	return (sub_str);
 }

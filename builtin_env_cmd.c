@@ -2,13 +2,6 @@
 
 void print_env(dict_t *env);
 
-/*
- *handle multiple statements like:
- *env key=value key key=value
- *env key=value key key
- *env key key key=value
- */
-
 /**
  * builtin_env_cmd - print environment variables
  * @info: program information
@@ -16,10 +9,10 @@ void print_env(dict_t *env);
  */
 int builtin_env_cmd(program_info_t *info)
 {
+	char *value, *second_token, key[BUFF_SIZE] = {'\0'};
 	size_t i;
-	char key[BUFFER_SIZE] = {'\0'}, *value;
-	char *second_token = get_list_node_value_at_index(info->curr_cmd_tokens, 1);
 
+	second_token = get_list_node_value_at_index(info->curr_cmd_tokens, 1);
 	if (!second_token)
 	{
 		print_env(info->env);
@@ -64,7 +57,6 @@ int builtin_setenv_cmd(program_info_t *info)
 
 	if (!key || !value)
 		return (0);
-
 	if (third_token)
 	{
 		errno = E2BIG, perror(info->curr_cmd_name);
@@ -87,7 +79,6 @@ int builtin_unsetenv_cmd(program_info_t *info)
 
 	if (!key)
 		return (0);
-
 	if (second_token)
 	{
 		errno = E2BIG, perror(info->curr_cmd_name);
@@ -105,5 +96,5 @@ int builtin_unsetenv_cmd(program_info_t *info)
 void print_env(dict_t *env)
 {
 	errno = 0;
-	print_dict(env, "=");
+	print_dict(env, "=", "");
 }
