@@ -45,10 +45,11 @@ char **tokenize_env_path(program_info_t *info)
 
 	path = _strdup(get_dict_key(info->env, "PATH"));
 
-	if (!path || *path == '\0')
+	if (!path)
+		return (NULL);
+	if (*path == '\0')
 	{
-		if (path)
-			free(path);
+		free(path);
 		return (NULL);
 	}
 
