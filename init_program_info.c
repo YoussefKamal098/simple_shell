@@ -43,6 +43,6 @@ void init_info_env(program_info_t *info, char **env)
 		env[i][j] = '\0';
 		key = &env[i][0];
 		value = &env[i][j + 1];
-		dict_push(&info->env, key, value);
+		dict_push(&info->env, key, value ? value : "");
 	}
 }
