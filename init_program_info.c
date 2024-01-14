@@ -36,13 +36,15 @@ void init_info_env(program_info_t *info, char **env)
 	char *key, *value;
 	size_t i, j;
 
+	(void)key;
+	(void)value;
+
 	for (i = 0; env[i]; i++)
 	{
 		j = get_delimiter_index(env[i], "=");
 
 		env[i][j] = '\0';
-		key = &env[i][0];
-		value = &env[i][j + 1];
-		dict_push(&info->env, key, value ? value : "");
+		if (env[i][j + 1] != '\0')
+			dict_push(&info->env, &env[i][0], &env[i][j + 1]);
 	}
 }
