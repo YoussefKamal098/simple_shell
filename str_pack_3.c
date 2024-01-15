@@ -115,6 +115,9 @@ int add_buffer(char *buffer, char *str)
 {
 	int len, i;
 
+	if (!buffer)
+		return (0);
+
 	len = _strlen(buffer);
 	if (!str || *str == '\0')
 		return (len);

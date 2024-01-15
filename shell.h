@@ -113,6 +113,9 @@ void init_program_info(program_info_t *info, int ac, char **av, char **env);
 /* hsh.c */
 void hsh(program_info_t *info, char *prompt);
 
+/* handle_signals.c */
+int handle_signals(void);
+
 /* execute_cmd.c */
 int execute_cmd(program_info_t *info);
 
@@ -189,7 +192,7 @@ char *_strdup(char *val);
 /* str_pack_2.c */
 size_t count_digit(size_t num);
 int _isdigit(char ch);
-char *get_substr_form_to(char *str, size_t i, size_t j);
+char *get_substr_from_to(char *str, size_t i, size_t j);
 
 /* str_pack_3.c */
 char *str_n_concat(size_t num, ...);

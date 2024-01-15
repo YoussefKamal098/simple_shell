@@ -47,7 +47,7 @@ int _isdigit(char ch)
 }
 
 /**
- * get_substr_form_to - get substring form index i to index j
+ * get_substr_from_to - get substring form index i to index j
  * @str: string
  * @i:start index
  * @j:end index
@@ -55,7 +55,7 @@ int _isdigit(char ch)
  * i greater than j or j greater that str length
  */
 
-char *get_substr_form_to(char *str, size_t i, size_t j)
+char *get_substr_from_to(char *str, size_t i, size_t j)
 {
 	size_t dest_idx, src_idx, substr_len;
 	char *sub_str;
@@ -67,7 +67,6 @@ char *get_substr_form_to(char *str, size_t i, size_t j)
 	sub_str = (char *)malloc(substr_len + 1);
 	if (!sub_str)
 	{
-
 		errno = ENOMEM, perror("Error");
 		return (NULL);
 	}

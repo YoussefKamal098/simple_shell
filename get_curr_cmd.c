@@ -5,7 +5,7 @@ int can_read_new_input(program_info_t *info);
 /**
  * get_curr_cmd - get current command to execute
  * @info: program information
- * Return: read bytes or -1 if it reach end of the file or
+ * Return: length of current command or -1 if it reach end of the file or
  * read operation failed
  */
 int get_curr_cmd(program_info_t *info)

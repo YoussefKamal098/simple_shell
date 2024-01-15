@@ -29,7 +29,7 @@ void expand_vars(program_info_t *info)
 		{
 			idx = get_delimiter_index(&curr_cmd[i + 1], "$ ");
 			idx = idx == -1 ? _strlen(&curr_cmd[i + 1]) : (size_t)idx;
-			var = get_substr_form_to(&curr_cmd[i + 1], 0, idx);
+			var = get_substr_from_to(&curr_cmd[i + 1], 0, idx);
 			expansion = get_dict_key(info->env, var), free(var);
 			if (expansion)
 				j = add_buffer(buffer, expansion);
