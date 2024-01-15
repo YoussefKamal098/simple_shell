@@ -1,6 +1,6 @@
 #include "shell.h"
 
-char *skip_delimiters(char *str, char *delimiters);
+char *skip_delimiters(char *str, char *delims);
 
 /**
  * _strtok - separate string with specific delimiters
@@ -11,28 +11,28 @@ char *skip_delimiters(char *str, char *delimiters);
 
 char *_strtok(char *str, char *delims)
 {
-	static char *str_copy;
+	static char *strcopy;
 	char *substr;
 	size_t i;
 	int flag;
 
 	if (str)
-		str_copy = skip_delimiters(str, delims);
+		strcopy = skip_delimiters(str, delims);
 
-	if (*str_copy == '\0')
+	if (*strcopy == '\0')
 		return (NULL);
 
-	substr = str_copy;
+	substr = strcopy;
 
-	for (; *str_copy; str_copy++)
+	for (; *strcopy; strcopy++)
 	{
 		flag = 0;
 		for (i = 0; delims[i]; i++)
 		{
-			if (*str_copy == delims[i])
+			if (*strcopy == delims[i])
 			{
-				*str_copy = '\0';
-				str_copy++;
+				*strcopy = '\0';
+				strcopy++;
 				flag = 1;
 				break;
 			}
@@ -40,7 +40,7 @@ char *_strtok(char *str, char *delims)
 
 		if (flag)
 		{
-			str_copy = skip_delimiters(str_copy, delims);
+			strcopy = skip_delimiters(strcopy, delims);
 			break;
 		}
 	}
@@ -51,11 +51,11 @@ char *_strtok(char *str, char *delims)
 /**
  * skip_delimiters - skip string delimiters
  * @str: string
- * @delimiters: delimiters
+ * @delims: delimiters
  * Return: string
  */
 
-char *skip_delimiters(char *str, char *delimiters)
+char *skip_delimiters(char *str, char *delims)
 {
 	size_t i;
 	int flag;
@@ -63,9 +63,9 @@ char *skip_delimiters(char *str, char *delimiters)
 	for (; *str; str++)
 	{
 		flag = 1;
-		for (i = 0; delimiters[i]; i++)
+		for (i = 0; delims[i]; i++)
 		{
-			if (*str == delimiters[i])
+			if (*str == delims[i])
 			{
 				*str = '\0';
 				flag = 0;

@@ -98,7 +98,7 @@ void tokenize_input_line(program_info_t *info, char *input_line)
 		else if (input_line[i] == ';' || input_line[i] == '\n')
 		{
 			cmd[j] = '\0';
-			if (cmd[0] != '\0')
+			if (!is_empty_str(cmd))
 				list_push(&info->next_cmds, cmd);
 			if (input_line[i] == ';')
 				list_push(&info->next_operators, ";");
