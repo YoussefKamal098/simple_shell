@@ -7,22 +7,21 @@
  */
 void hsh(program_info_t *info, char *prompt)
 {
+	size_t curr_cmd_len = 0;
 	int code = 0;
-	size_t cmd_len = 0;
 
-	while (1)
+	while (++info->exec_counter)
 	{
 		_puts(prompt);
-		info->exec_counter += 1;
 
-		code = cmd_len = get_curr_cmd(info);
+		code = curr_cmd_len = get_curr_cmd(info);
 		if (code == EOF)
 		{
 			free_all_program_info(info);
 			exit(errno);
 		}
 
-		if (cmd_len >= 1)
+		if (curr_cmd_len >= 1)
 		{
 			expand_vars(info);
 			tokenize_curr_cmd(info);

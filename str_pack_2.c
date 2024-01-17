@@ -49,21 +49,21 @@ int _isdigit(char ch)
 /**
  * get_substr_from_to - get substring form index i to index j
  * @str: string
- * @i:start index
- * @j:end index
+ * @start:start index
+ * @end:end index
  * Return: substring or NULL if str is NULL or
  * i greater than j or j greater that str length
  */
 
-char *get_substr_from_to(char *str, size_t i, size_t j)
+char *get_substr_from_to(char *str, size_t start, size_t end)
 {
 	size_t dest_idx, src_idx, substr_len;
 	char *sub_str;
 
-	if (!str || i > j || _strlen(str) < j)
+	if (!str || start > end || _strlen(str) < end)
 		return (NULL);
 
-	substr_len = j - i + 1;
+	substr_len = end - start + 1;
 	sub_str = (char *)malloc(substr_len + 1);
 	if (!sub_str)
 	{
@@ -72,7 +72,7 @@ char *get_substr_from_to(char *str, size_t i, size_t j)
 	}
 
 	dest_idx = 0;
-	for (src_idx = i; src_idx < j && str[src_idx]; src_idx++, dest_idx++)
+	for (src_idx = start; src_idx < end && str[src_idx]; src_idx++, dest_idx++)
 		sub_str[dest_idx] = str[src_idx];
 
 	sub_str[dest_idx] = '\0';

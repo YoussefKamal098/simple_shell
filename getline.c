@@ -13,12 +13,10 @@ int _getline(int fd, char *buff, size_t size)
 	int read_bytes;
 
 	read_bytes = read(fd, buff, size);
+
 	if (read_bytes == -1)
-	{
 		perror("Error");
-		return (EOF);
-	}
-	if (read_bytes == 0)
+	if (read_bytes == 0 || read_bytes == -1)
 		return (EOF);
 
 	return (read_bytes);

@@ -6,7 +6,7 @@ int can_read_new_input(program_info_t *info);
  * get_curr_cmd - get current command to execute
  * @info: program information
  * Return: length of current command or -1 if it reach end of the file or
- * read operation failed
+ * read operation failed or 0 otherwise
  */
 int get_curr_cmd(program_info_t *info)
 {
@@ -17,9 +17,7 @@ int get_curr_cmd(program_info_t *info)
 	{
 		read_bytes = _getline(info->fd, buffer, BUFF_SIZE - 1);
 
-		if (read_bytes == -1)
-			return (EOF);
-		if (read_bytes == 0)
+		if (read_bytes == EOF || read_bytes == 0)
 			return (EOF);
 		if (validate_input_line(info, buffer))
 			return (0);
