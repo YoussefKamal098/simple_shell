@@ -10,7 +10,7 @@
  */
 int _getline(int fd, char *buffer, size_t size)
 {
-	int read_bytes;
+	int read_bytes, i;
 
 	read_bytes = read(fd, buffer, size);
 
@@ -18,6 +18,18 @@ int _getline(int fd, char *buffer, size_t size)
 		perror("Error");
 	if (read_bytes == 0 || read_bytes == -1)
 		return (EOF);
+
+	for (i = 0; i < read_bytes; i++)
+	{
+		if (buffer[i] == '\n')
+		{
+			lseek(fd, -(read_bytes - i - 1), SEEK_CUR);
+			break;
+		}
+	}
+
+	read_bytes = i != read_bytes ? i : read_bytes;
+	buffer[read_bytes] = '\0';
 
 	return (read_bytes);
 }
