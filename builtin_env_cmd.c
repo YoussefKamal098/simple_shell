@@ -9,7 +9,7 @@ void print_env(dict_t *env);
  */
 int builtin_env_cmd(program_info_t *info)
 {
-	char *value, *second_token, key[BUFF_SIZE] = {'\0'};
+	char *value, *second_token, key[BUFFER_SIZE] = {'\0'};
 	size_t i;
 
 	second_token = get_list_node_value_at_index(info->curr_cmd_tokens, 1);

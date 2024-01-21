@@ -30,7 +30,7 @@ dealing with specific features provided by POSIX-compliant systems.
 #include <fcntl.h>
 /* for open files, open function */
 
-#define BUFF_SIZE 1024
+#define BUFFER_SIZE 1024
 #define PROMPT "$ "
 
 #define PROGRAM_INFO_INIT                                         \
@@ -47,25 +47,25 @@ dealing with specific features provided by POSIX-compliant systems.
 
 /**
  * struct list - list of strings
- * @val: string of the node
+ * @value: string of the node
  * @next: next node
  */
 typedef struct list
 {
-	char *val;
+	char *value;
 	struct list *next;
 } list_t;
 
 /**
  * struct dict - list of key values variables
  * @key: key of node
- * @val: val of node
+ * @value: value of node
  * @next: next node
  */
 typedef struct dict
 {
 	char *key;
-	char *val;
+	char *value;
 	struct dict *next;
 } dict_t;
 
@@ -120,7 +120,7 @@ int handle_signals(void);
 int execute_cmd(program_info_t *info);
 
 /* _strtok.c */
-char *_strtok(char *val, char *delims);
+char *_strtok(char *value, char *delims);
 
 /* tokenize.c */
 void tokenize_curr_cmd(program_info_t *info);
@@ -132,7 +132,7 @@ int validate_input_line(program_info_t *info, char *buff);
 
 /* dict_management.c */
 char *get_dict_key(dict_t *head, char *key);
-int set_dict_key(dict_t **head, char *key, char *val);
+int set_dict_key(dict_t **head, char *key, char *value);
 int unset_dict_key(dict_t **head, char *key);
 
 /* find_builtin_cmd.c */
@@ -183,11 +183,11 @@ void free_dict(dict_t **head);
 void free_dict_node(dict_t **node);
 
 /* str_pack_1.c */
-size_t _strlen(char *val);
+size_t _strlen(char *str);
 char *_strcpy(char *dest, char *src);
 char *strconcat(char *str1, char *str2);
 int _strcmp(char *str1, char *str2);
-char *_strdup(char *val);
+char *_strdup(char *str);
 
 /* str_pack_2.c */
 size_t count_digit(size_t num);
@@ -196,16 +196,16 @@ char *get_substr_from_to(char *str, size_t i, size_t j);
 
 /* str_pack_3.c */
 char *str_n_concat(size_t num, ...);
-int is_space(char *val);
-int is_empty_str(char *val);
+int is_space(char *str);
+int is_empty_str(char *value);
 int get_delimiter_index(char *str, char *delims);
-int add_buffer(char *buff, char *str);
+int add_buffer(char *buffer, char *str);
 
 /* print.c */
-int _puts(char *val);
+int _puts(char *str);
 
 /* print_error_1.c */
-int _eputs(char *val);
+int _eputs(char *str);
 void print_stderr_msg(program_info_t *info, int code);
 void print_err_msg(program_info_t *info, char *msg);
 void print_prefix_err_msg(program_info_t *info);
@@ -220,29 +220,29 @@ void print_no_such_file_or_dir_err_msg(program_info_t *info);
 
 /* numbers_pack.c */
 char *_itoa(long int num, int is_unsigned);
-long int _atoi(char *val);
-int is_pos_int(char *val);
+long int _atoi(char *str);
+int is_pos_int(char *str);
 
 /* list_pack_1.c */
 size_t list_len(const list_t *head);
 size_t print_list(const list_t *head, char *delims);
-int list_push(list_t **head, char *val);
+int list_push(list_t **head, char *value);
 
 /* list_pack_2.c */
 char *shift_list(list_t **head);
 char *get_list_node_value_at_index(list_t *head, size_t idx);
 char **list_to_strs(list_t *head);
-int update_list_node_value_at_index(list_t *head, char *val, size_t idx);
+int update_list_node_value_at_index(list_t *head, char *value, size_t idx);
 
 /* dict_pack_1.c */
 size_t dict_len(const dict_t *head);
 size_t print_dict(const dict_t *head, char *delims, char *val_surround);
-int dict_push(dict_t **head, char *key, char *val);
+int dict_push(dict_t **head, char *key, char *value);
 
 /* dict_pack_2.c */
 int remove_dict_node_at_index(dict_t **head, size_t idx);
 int dict_search(dict_t *head, char *key);
-int update_dict_node_value_at_index(dict_t *head, char *val, size_t idx);
+int update_dict_node_value_at_index(dict_t *head, char *value, size_t idx);
 char *get_dict_node_value_at_index(dict_t *head, size_t idx);
 char **dict_to_strs(dict_t *head, char *delims);
 

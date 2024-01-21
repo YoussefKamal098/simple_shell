@@ -12,7 +12,7 @@ int is_comment(char *curr_cmd, size_t i);
 void expand_vars(program_info_t *info)
 {
 	size_t i, j = 0;
-	char buffer[BUFF_SIZE] = {'\0'};
+	char buffer[BUFFER_SIZE] = {'\0'};
 	char *curr_cmd = info->curr_cmd, *var, *expansion;
 	int idx;
 
@@ -50,13 +50,13 @@ void expand_vars(program_info_t *info)
  */
 void expand_alias(program_info_t *info)
 {
-	char *val = get_dict_key(info->alias, info->curr_cmd_name);
+	char *value = get_dict_key(info->alias, info->curr_cmd_name);
 
-	if (val)
+	if (value)
 	{
 		free(info->curr_cmd_name);
-		info->curr_cmd_name = _strdup(val);
-		update_list_node_value_at_index(info->curr_cmd_tokens, val, 0);
+		info->curr_cmd_name = _strdup(value);
+		update_list_node_value_at_index(info->curr_cmd_tokens, value, 0);
 	}
 }
 

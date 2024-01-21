@@ -20,11 +20,11 @@ size_t dict_len(const dict_t *head)
  * dict_push - add node to the dictionary
  * @head: head of the dictionary
  * @key: key of the node
- * @val: value of the node
+ * @value: value of the node
  * Return: 0 if success or -1 if head is NULL or malloc failed
  */
 
-int dict_push(dict_t **head, char *key, char *val)
+int dict_push(dict_t **head, char *key, char *value)
 {
 	dict_t *node, *curr;
 
@@ -45,8 +45,8 @@ int dict_push(dict_t **head, char *key, char *val)
 		return (-1);
 	}
 
-	node->val = _strdup(val);
-	if (!node->val)
+	node->value = _strdup(value);
+	if (!node->value)
 	{
 		errno = ENOMEM, perror("Error");
 		free(node->key), free(node);
@@ -85,7 +85,7 @@ size_t print_dict(const dict_t *head, char *delims, char *val_surround)
 		_puts(head->key);
 		_puts(delims);
 		_puts(val_surround);
-		_puts(head->val);
+		_puts(head->value);
 		_puts(val_surround);
 		_puts("\n");
 		head = head->next, size++;

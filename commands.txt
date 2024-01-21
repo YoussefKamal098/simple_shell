@@ -5,8 +5,9 @@
                            
                             
                              
-
-
+ls || ls 
+ls && cal
+ls && tt
 
 
 

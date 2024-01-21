@@ -9,7 +9,7 @@
 char *shift_list(list_t **head)
 {
 	list_t *temp;
-	char *val;
+	char *value;
 
 	if (!head || !*head)
 		return (NULL);
@@ -18,9 +18,9 @@ char *shift_list(list_t **head)
 	*head = temp->next;
 	temp->next = NULL;
 
-	val = _strdup(temp->val);
+	value = _strdup(temp->value);
 	free_list_node(&temp);
-	return (val);
+	return (value);
 }
 
 /**
@@ -34,7 +34,7 @@ char *get_list_node_value_at_index(list_t *head, size_t idx)
 	while (idx-- && head)
 		head = head->next;
 
-	return (head ? head->val : NULL);
+	return (head ? head->value : NULL);
 }
 
 /**
@@ -47,7 +47,7 @@ char **list_to_strs(list_t *head)
 {
 	size_t len, i;
 	list_t *node = head;
-	char **list, *val;
+	char **list, *value;
 
 	len = list_len(head);
 	if (!head || !len)
@@ -62,8 +62,8 @@ char **list_to_strs(list_t *head)
 
 	for (i = 0; node; node = node->next, i++)
 	{
-		val = malloc(_strlen(node->val) + 1);
-		if (!val)
+		value = malloc(_strlen(node->value) + 1);
+		if (!value)
 		{
 			errno = ENOMEM, perror("Error");
 			list[i] = NULL;
@@ -72,7 +72,7 @@ char **list_to_strs(list_t *head)
 			return (NULL);
 		}
 
-		val = _strcpy(val, node->val), list[i] = val;
+		value = _strcpy(value, node->value), list[i] = value;
 	}
 
 	list[i] = NULL;
@@ -82,12 +82,12 @@ char **list_to_strs(list_t *head)
 /**
  * update_list_node_value_at_index - update_list_node_value_at_index
  * @head: head of the list
- * @val: value that will be replaced node value
+ * @value: value that will be replaced node value
  * @idx: index of node
  * Return: 0 if success or -1 otherwise
  */
 
-int update_list_node_value_at_index(list_t *head, char *val, size_t idx)
+int update_list_node_value_at_index(list_t *head, char *value, size_t idx)
 {
 	list_t *curr;
 
@@ -101,7 +101,7 @@ int update_list_node_value_at_index(list_t *head, char *val, size_t idx)
 	if (!curr)
 		return (-1);
 
-	free(curr->val);
-	curr->val = _strdup(val);
+	free(curr->value);
+	curr->value = _strdup(value);
 	return (0);
 }

@@ -25,7 +25,7 @@ char **dict_to_strs(dict_t *head, char *delims)
 
 	for (i = 0, curr = head; curr; curr = curr->next, i++)
 	{
-		str = str_n_concat(3, curr->key, delims, curr->val);
+		str = str_n_concat(3, curr->key, delims, curr->value);
 		if (!str)
 		{
 			errno = ENOMEM, perror("Error");
@@ -108,11 +108,11 @@ int dict_search(dict_t *head, char *key)
 /**
  *  update_dict_node_value_at_index - update dictionary node value at index
  * @head: head of the dictionary
- * @val: value to to be replaced with node value
+ * @value: value to to be replaced with node value
  * @idx: index of node
  * Return: 0 if success or -1 otherwise
  */
-int update_dict_node_value_at_index(dict_t *head, char *val, size_t idx)
+int update_dict_node_value_at_index(dict_t *head, char *value, size_t idx)
 {
 	dict_t *curr;
 
@@ -126,8 +126,8 @@ int update_dict_node_value_at_index(dict_t *head, char *val, size_t idx)
 	if (!curr)
 		return (-1);
 
-	free(curr->val);
-	curr->val = _strdup(val);
+	free(curr->value);
+	curr->value = _strdup(value);
 	return (0);
 }
 
@@ -142,5 +142,5 @@ char *get_dict_node_value_at_index(dict_t *head, size_t idx)
 	while (idx-- && head)
 		head = head->next;
 
-	return (head ? head->val : NULL);
+	return (head ? head->value : NULL);
 }

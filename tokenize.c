@@ -84,7 +84,7 @@ char **tokenize_env_path(program_info_t *info)
 void tokenize_input_line(program_info_t *info, char *input_line)
 {
 	size_t i, j = 0;
-	char cmd[BUFF_SIZE];
+	char cmd[BUFFER_SIZE];
 
 	for (i = 0; input_line[i]; i++)
 	{

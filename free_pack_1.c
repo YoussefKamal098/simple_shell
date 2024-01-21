@@ -82,7 +82,7 @@ void free_list_node(list_t **node)
 		return;
 
 	temp = *node;
-	free(temp->val);
+	free(temp->value);
 	free(temp);
 	*node = NULL;
 }

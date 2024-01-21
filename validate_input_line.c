@@ -31,7 +31,7 @@ int validate_input_line(program_info_t *info, char *input_line)
 int check_for_syntax_err(program_info_t *info, char *input_line)
 {
 	size_t i, j = 0;
-	char curr_cmd[BUFF_SIZE], *err, _operator;
+	char curr_cmd[BUFFER_SIZE], *err, _operator;
 	int is_operator = 0, is_print_err = 0;
 
 	for (i = 0; input_line[i]; i++)

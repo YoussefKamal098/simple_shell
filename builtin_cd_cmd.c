@@ -10,7 +10,7 @@ int set_pre_working_dir(program_info_t *info);
  */
 int builtin_cd_cmd(program_info_t *info)
 {
-	char *home_dir, *second_token, old_dir[BUFF_SIZE] = {'\0'};
+	char *home_dir, *second_token, old_dir[BUFFER_SIZE] = {'\0'};
 	int err_code;
 
 	second_token = get_list_node_value_at_index(info->curr_cmd_tokens, 1);
@@ -30,7 +30,7 @@ int builtin_cd_cmd(program_info_t *info)
 	{
 		home_dir = get_dict_key(info->env, "HOME");
 		if (!home_dir)
-			home_dir = getcwd(old_dir, BUFF_SIZE - 1);
+			home_dir = getcwd(old_dir, BUFFER_SIZE - 1);
 
 		return (set_working_dir(info, home_dir));
 	}
@@ -46,10 +46,10 @@ int builtin_cd_cmd(program_info_t *info)
  */
 int set_working_dir(program_info_t *info, char *new_dir)
 {
-	char old_dir[BUFF_SIZE] = {'\0'};
+	char old_dir[BUFFER_SIZE] = {'\0'};
 	int err_code = 0;
 
-	getcwd(old_dir, BUFF_SIZE - 1);
+	getcwd(old_dir, BUFFER_SIZE - 1);
 	err_code = chdir(new_dir);
 	if (err_code == -1)
 	{

@@ -32,7 +32,7 @@ void free_dict_node(dict_t **node)
 
 	temp = *node;
 	free(temp->key);
-	free(temp->val);
+	free(temp->value);
 	free(temp);
 	*node = NULL;
 }

@@ -11,11 +11,11 @@ int can_read_new_input(program_info_t *info);
 int get_curr_cmd(program_info_t *info)
 {
 	int read_bytes;
-	char buffer[BUFF_SIZE] = {'\0'};
+	char buffer[BUFFER_SIZE] = {'\0'};
 
 	if (can_read_new_input(info))
 	{
-		read_bytes = _getline(info->fd, buffer, BUFF_SIZE - 1);
+		read_bytes = _getline(info->fd, buffer, BUFFER_SIZE - 1);
 
 		if (read_bytes == EOF || read_bytes == 0)
 			return (EOF);
@@ -49,9 +49,9 @@ int can_read_new_input(program_info_t *info)
 {
 	return ((!info->next_cmds ||
 		 (info->next_operators &&
-		  _strcmp(info->next_operators->val, "&&") == 0 && errno != 0) ||
+		  _strcmp(info->next_operators->value, "&&") == 0 && errno != 0) ||
 		 (info->next_operators &&
-		  _strcmp(info->next_operators->val, "||") == 0 && errno == 0)));
+		  _strcmp(info->next_operators->value, "||") == 0 && errno == 0)));
 }
 
 /**

@@ -10,7 +10,7 @@ void print_alias_key(dict_t *alias, char *key);
 int builtin_alias_cmd(program_info_t *info)
 {
 	int i, j;
-	char **tokens = list_to_strs(info->curr_cmd_tokens), *key, *val, *temp;
+	char **tokens = list_to_strs(info->curr_cmd_tokens), *key, *value, *temp;
 
 	if (!tokens[1])
 		print_dict(info->alias, "=", "'");
@@ -22,10 +22,10 @@ int builtin_alias_cmd(program_info_t *info)
 		{
 			tokens[i][j] = '\0';
 			key = &tokens[i][0];
-			val = &tokens[i][j + 1];
-			temp = get_dict_key(info->alias, val);
-			val = temp ? temp : val;
-			set_dict_key(&info->alias, key, val ? val : "");
+			value = &tokens[i][j + 1];
+			temp = get_dict_key(info->alias, value);
+			value = temp ? temp : value;
+			set_dict_key(&info->alias, key, value ? value : "");
 		}
 		else
 			print_alias_key(info->alias, tokens[i]);
@@ -43,14 +43,14 @@ int builtin_alias_cmd(program_info_t *info)
 
 void print_alias_key(dict_t *alias, char *key)
 {
-	char *val = get_dict_key(alias, key);
+	char *value = get_dict_key(alias, key);
 
-	if (val)
-	{
-		_puts(key);
-		_puts("=");
-		_puts("'");
-		_puts(val);
-		_puts("'\n");
-	}
+	if (!value)
+		return;
+
+	_puts(key);
+	_puts("=");
+	_puts("'");
+	_puts(value);
+	_puts("'\n");
 }
