@@ -183,7 +183,7 @@ $ ^C
 $ 
 vagrant@vagrant-ubuntu-trusty-64:~/HOLBERTON/simple_shell_project$ 
 ```
-Node that in the second line the `Ctrl+D`  is typed
+Note that in the second line the `Ctrl+D`  is typed
 ## Contributions
 
 Contributions to the Shell are welcome! Fork the repository, make your changes, and submit a pull request. Please follow the existing code style and conventions.
